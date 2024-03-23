@@ -1,0 +1,36 @@
+bindkey -e
+setopt noautomenu                # Never autocomplete if there are multiple matches
+setopt share_history             # Share history between all sessions
+setopt hist_expire_dups_first    # Expire a duplicate event first when trimming history
+setopt hist_ignore_dups          # Do not record an event that was just recorded again
+setopt complete_in_word
+setopt auto_cd
+setopt TRANSIENT_RPROMPT         # Sadly only works for the right prompt
+
+# make ctrl+backspace delete word
+bindkey '^H' backward-kill-word
+
+# make delete key work: https://superuser.com/a/1078653
+bindkey "^[[3~" delete-char
+
+# make ctrl+arrow move one word at a time
+bindkey "^[[1;5D" backward-word
+bindkey "^[[1;5C" forward-word
+
+alias ..='cd ..'
+alias ...='cd ../..'
+
+alias serve='python -m http.server'
+
+alias g='git'
+alias gs='git status'
+alias gc='git commit -m'
+alias gca='git commit --amend'
+alias gco='git checkout'
+alias ga='git add'
+alias gp='git pull'
+alias gpr='git pull --rebase'
+alias gf='git fetch'
+alias gd='git diff'
+alias gdc='git diff --cached'
+alias gb='git branch'

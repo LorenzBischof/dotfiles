@@ -20,6 +20,7 @@
       cmp-nvim-lsp
       luasnip
       lsp-zero-nvim
+      fzf-lua
       #        nvim-tree
     ];
     extraPackages = with pkgs; [
@@ -27,6 +28,8 @@
       #      nixd
       nil
       lua-language-server
+      fzf
+      ripgrep
     ];
   };
   xdg.configFile.nvim = {

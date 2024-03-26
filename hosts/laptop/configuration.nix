@@ -242,5 +242,8 @@
     thermald.enable = true;
   };
 
+  # https://github.com/NixOS/nixpkgs/issues/180175
+  systemd.services.NetworkManager-wait-online.enable = false;
+
   system.stateVersion = "23.05"; # Did you read the comment?
 }

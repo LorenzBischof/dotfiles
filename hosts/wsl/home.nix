@@ -1,5 +1,36 @@
 { config, pkgs, ... }:
-
+let
+  regula = pkgs.stdenv.mkDerivation {
+    name = "regula";
+    src = pkgs.fetchzip {
+      url = "https://github.com/fugue/regula/releases/download/v3.2.1/regula_3.2.1_Linux_x86_64.tar.gz";
+      sha256 = "sha256-fN6ABQnDfhqnRBcBlc6hV4iKtJRvngNPDrBkCXd9k+k=";
+      curlOpts = "-k";
+      stripRoot = false;
+    };
+    phases = [ "installPhase" ];
+    installPhase = ''
+      mkdir -p $out/bin
+      cp $src/$name $out/bin/$name
+      chmod +x $out/bin/$name
+    '';
+  };
+  fregot = pkgs.stdenv.mkDerivation {
+    name = "fregot";
+    src = pkgs.fetchzip {
+      url = "https://github.com/fugue/fregot/releases/download/v0.14.2/fregot-v0.14.2-linux.tar.gz";
+      sha256 = "sha256-883R1ocsx98oq73D//8jVQOz/3G8Cw7XxTb5Ugn+yJQ=";
+      curlOpts = "-k";
+      #stripRoot = false;
+    };
+    phases = [ "installPhase" ];
+    installPhase = ''
+      mkdir -p $out/bin
+      cp $src/$name $out/bin/$name
+      chmod +x $out/bin/$name
+    '';
+  };
+in
 {
   imports = [
     ../../common/home-manager/nvim
@@ -35,7 +66,6 @@
 
   home.packages = with pkgs; [
     golangci-lint
-    comma
     kubectl
 
     #    cue
@@ -43,11 +73,15 @@
     #    kubebuilder
     #    kind
     #    argocd
-    #    terraform
+    terraform
     #    yq
 
     #    helmfile
     #    (wrapHelm kubernetes-helm { plugins = [ kubernetes-helmPlugins.helm-diff ]; })
+    regula
+    fregot
+    gitlab-runner
+    gotools
   ];
 
   programs.go.enable = true;

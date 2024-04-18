@@ -26,7 +26,7 @@
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
     in
-    {
+    rec {
       nixosConfigurations.laptop = nixpkgs.lib.nixosSystem {
         inherit system;
         modules = [
@@ -64,6 +64,18 @@
           }
         ];
       };
+      nixosConfigurations.rpi2 = nixpkgs.lib.nixosSystem {
+        modules = [
+          "${nixpkgs}/nixos/modules/installer/sd-card/sd-image-raspberrypi.nix"
+          {
+            nixpkgs.config.allowUnsupportedSystem = true;
+            nixpkgs.hostPlatform.system = "armv7l-linux";
+            nixpkgs.buildPlatform.system = "x86_64-linux"; #If you build on x86 other wise changes this.
+            # ... extra configs as above
+          }
+        ];
+      };
+      images.rpi2 = nixosConfigurations.rpi2.config.system.build.sdImage;
       formatter.${system} = pkgs.nixpkgs-fmt;
     };
 }

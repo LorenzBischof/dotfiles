@@ -27,6 +27,7 @@
     xournalpp
     gnome.simple-scan
     mpv
+    gramps
     # Required so that Logseq can open links
     # There is probably a NixOS option for this...
     xdg-utils

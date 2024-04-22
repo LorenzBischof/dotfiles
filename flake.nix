@@ -19,14 +19,18 @@
       url = "github:lorenzbischof/nix-secrets";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    pre-commit-hooks = {
+      url = "github:cachix/pre-commit-hooks.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { nixpkgs, home-manager, stylix, nix-index-database, nix-secrets, ... }:
+  outputs = { self, nixpkgs, home-manager, stylix, nix-index-database, nix-secrets, pre-commit-hooks, ... }:
     let
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
     in
-    rec {
+    {
       nixosConfigurations.laptop = nixpkgs.lib.nixosSystem {
         inherit system;
         modules = [
@@ -75,7 +79,21 @@
           }
         ];
       };
-      images.rpi2 = nixosConfigurations.rpi2.config.system.build.sdImage;
+      images.rpi2 = self.nixosConfigurations.rpi2.config.system.build.sdImage;
       formatter.${system} = pkgs.nixpkgs-fmt;
+      checks.${system}.pre-commit-check = pre-commit-hooks.lib.${system}.run {
+        src = ./.;
+        hooks = {
+          nixpkgs-fmt.enable = true;
+          check-merge-conflicts.enable = true;
+          commitizen.enable = true;
+          deadnix.enable = true;
+          #statix.enable = true;
+        };
+      };
+      devShells.${system}.default = pkgs.mkShell {
+        inherit (self.checks.${system}.pre-commit-check) shellHook;
+        buildInputs = self.checks.${system}.pre-commit-check.enabledPackages;
+      };
     };
 }

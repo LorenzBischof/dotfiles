@@ -47,20 +47,67 @@
   #  };
 
   stylix.targets.fuzzel.enable = true;
-  programs.fuzzel = {
-    enable = true;
-    settings = {
-      main = {
-        width = 15;
-        lines = 9;
-        horizontal-pad = 18;
-        vertical-pad = 18;
-        inner-pad = 24;
-        line-height = 25;
+  programs = {
+    fuzzel = {
+      enable = true;
+      settings = {
+        main = {
+          width = 15;
+          lines = 9;
+          horizontal-pad = 18;
+          vertical-pad = 18;
+          inner-pad = 24;
+          line-height = 25;
+        };
+        border = {
+          width = 5;
+          radius = 0;
+        };
       };
-      border = {
-        width = 5;
-        radius = 0;
+    };
+    swaylock = {
+      enable = true;
+      settings = {
+        color = "000000";
+        hide-keyboard-layout = true;
+        show-failed-attempts = true;
+        indicator-idle-visible = true;
+      };
+    };
+    i3status-rust = {
+      enable = true;
+      bars.default = {
+        theme = "native";
+        icons = "awesome6";
+        blocks = [
+          {
+            block = "net";
+            device = "wlp2s0";
+            format = "$ssid";
+            format_alt = "$ip $signal_strength $speed_down.eng(prefix:K) $speed_up.eng(prefix:K)";
+            interval = 5;
+          }
+          {
+            block = "sound";
+            #   on_click = "pavucontrol -t 1";
+            headphones_indicator = true;
+          }
+          {
+            block = "sound";
+            device_kind = "source";
+            #   on_click = "pavucontrol -t 2";
+            headphones_indicator = true;
+          }
+          {
+            block = "battery";
+            if_command = "test -e /sys/class/power_supply/BAT0";
+          }
+          {
+            block = "time";
+            interval = 5;
+            format = "$timestamp.datetime(f:'%R')";
+          }
+        ];
       };
     };
   };
@@ -69,15 +116,6 @@
     enable = true;
     latitude = 46.9;
     longitude = 7.4;
-  };
-  programs.swaylock = {
-    enable = true;
-    settings = {
-      color = "000000";
-      hide-keyboard-layout = true;
-      show-failed-attempts = true;
-      indicator-idle-visible = true;
-    };
   };
   services.swayidle = {
     enable = true;
@@ -129,7 +167,7 @@
             names = [ "DejaVu Sans Mono" ];
             size = 12.0;
           };
-          colors = config.lib.theme.sway.bar.colors;
+          inherit (config.lib.theme.sway.bar) colors;
         }
       ];
       up = "k";
@@ -219,42 +257,6 @@
     '';
     wrapperFeatures = {
       gtk = true;
-    };
-  };
-  programs.i3status-rust = {
-    enable = true;
-    bars.default = {
-      theme = "native";
-      icons = "awesome6";
-      blocks = [
-        {
-          block = "net";
-          device = "wlp2s0";
-          format = "$ssid";
-          format_alt = "$ip $signal_strength $speed_down.eng(prefix:K) $speed_up.eng(prefix:K)";
-          interval = 5;
-        }
-        {
-          block = "sound";
-          #   on_click = "pavucontrol -t 1";
-          headphones_indicator = true;
-        }
-        {
-          block = "sound";
-          device_kind = "source";
-          #   on_click = "pavucontrol -t 2";
-          headphones_indicator = true;
-        }
-        {
-          block = "battery";
-          if_command = "test -e /sys/class/power_supply/BAT0";
-        }
-        {
-          block = "time";
-          interval = 5;
-          format = "$timestamp.datetime(f:'%R')";
-        }
-      ];
     };
   };
   home.file = {

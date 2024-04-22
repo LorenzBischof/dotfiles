@@ -40,70 +40,70 @@ in
 
   nixpkgs.config.allowUnfree = true;
 
-  programs.zsh = {
-    sessionVariables = {
-      http_proxy = "http://localhost:8888";
-      https_proxy = "http://localhost:8888";
-      HTTP_PROXY = "http://localhost:8888";
-      HTTPS_PROXY = "http://localhost:8888";
-      no_proxy = "localhost,127.0.0.1";
-      NO_PROXY = "localhost,127.0.0.1";
+  programs = {
+    zsh = {
+      sessionVariables = {
+        http_proxy = "http://localhost:8888";
+        https_proxy = "http://localhost:8888";
+        HTTP_PROXY = "http://localhost:8888";
+        HTTPS_PROXY = "http://localhost:8888";
+        no_proxy = "localhost,127.0.0.1";
+        NO_PROXY = "localhost,127.0.0.1";
+      };
     };
-  };
+    ssh = {
+      enable = true;
+      addKeysToAgent = "yes";
+    };
 
+    direnv = {
+      enable = true;
+      nix-direnv.enable = true;
+    };
+
+  };
   # TODO: can we use a yubikey?
   services.ssh-agent.enable = true;
 
-  programs.ssh = {
-    enable = true;
-    addKeysToAgent = "yes";
+
+  home = {
+    packages = with pkgs; [
+      golangci-lint
+      kubectl
+
+      #    cue
+      #    open-policy-agent
+      #    kubebuilder
+      #    kind
+      #    argocd
+      terraform
+      #    yq
+
+      #    helmfile
+      #    (wrapHelm kubernetes-helm { plugins = [ kubernetes-helmPlugins.helm-diff ]; })
+      regula
+      fregot
+      gitlab-runner
+      gotools
+    ];
+    # Home Manager needs a bit of information about you and the paths it should
+    # manage.
+    username = "bischoflo";
+    homeDirectory = "/home/bischoflo";
+
+    # This value determines the Home Manager release that your configuration is
+    # compatible with. This helps avoid breakage when a new Home Manager release
+    # introduces backwards incompatible changes.
+    #
+    # You should not change this value, even if you update Home Manager. If you do
+    # want to update the value, then make sure to first check the Home Manager
+    # release notes.
+    stateVersion = "23.11"; # Please read the comment before changing.
   };
-
-  programs.direnv = {
-    enable = true;
-    nix-direnv.enable = true;
-  };
-
-  home.packages = with pkgs; [
-    golangci-lint
-    kubectl
-
-    #    cue
-    #    open-policy-agent
-    #    kubebuilder
-    #    kind
-    #    argocd
-    terraform
-    #    yq
-
-    #    helmfile
-    #    (wrapHelm kubernetes-helm { plugins = [ kubernetes-helmPlugins.helm-diff ]; })
-    regula
-    fregot
-    gitlab-runner
-    gotools
-  ];
 
   programs.go.enable = true;
-
-  home.sessionVariables = {
-    # EDITOR = "emacs";
-  };
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
 
-  # Home Manager needs a bit of information about you and the paths it should
-  # manage.
-  home.username = "bischoflo";
-  home.homeDirectory = "/home/bischoflo";
-
-  # This value determines the Home Manager release that your configuration is
-  # compatible with. This helps avoid breakage when a new Home Manager release
-  # introduces backwards incompatible changes.
-  #
-  # You should not change this value, even if you update Home Manager. If you do
-  # want to update the value, then make sure to first check the Home Manager
-  # release notes.
-  home.stateVersion = "23.11"; # Please read the comment before changing.
 }

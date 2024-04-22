@@ -16,39 +16,47 @@
     ];
 
   stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/eighties.yaml";
-  services.batteryNotifier = {
-    enable = true;
-    notifyCapacity = 15;
-    suspendCapacity = 10;
+  services = {
+    batteryNotifier = {
+      enable = true;
+      notifyCapacity = 15;
+      suspendCapacity = 10;
+    };
+    blueman.enable = true;
+
+    tailscale.enable = true;
   };
   system.activationScripts.diff = ''
     ${pkgs.nix}/bin/nix store \
         diff-closures /run/current-system "$systemConfig"
   '';
 
-  boot.kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
-  boot.kernelParams = [ "nohibernate" ];
-  boot.loader.grub = {
-    enable = true;
-    zfsSupport = true;
-    efiSupport = true;
-    efiInstallAsRemovable = true;
-    mirroredBoots = [
-      { devices = [ "nodev" ]; path = "/boot"; }
-    ];
+  boot = {
+    kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
+    kernelParams = [ "nohibernate" ];
+    loader.grub = {
+      enable = true;
+      zfsSupport = true;
+      efiSupport = true;
+      efiInstallAsRemovable = true;
+      mirroredBoots = [
+        { devices = [ "nodev" ]; path = "/boot"; }
+      ];
+    };
   };
-  programs.command-not-found.enable = false;
 
   # find "$(nix eval --raw 'nixpkgs#kbd')/share/keymaps" -name '*.map.gz' | grep "de_CH"
   console.keyMap = "de_CH-latin1";
 
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
-  networking.hostId = "ac63adf1";
-  networking.hostName = "laptop"; # Define your hostname.
-  # Pick only one of the below networking options.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-  networking.networkmanager.enable = true; # Easiest to use and most distros use this by default.
+  networking = {
+    hostId = "ac63adf1";
+    hostName = "laptop"; # Define your hostname.
+    # Pick only one of the below networking options.
+    # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+    networkmanager.enable = true; # Easiest to use and most distros use this by default.
+  };
 
   # Set your time zone.
   time.timeZone = "Europe/Zurich";
@@ -63,29 +71,23 @@
   # Containers
   virtualisation.podman.enable = true;
 
-  # Bluetooth
-  hardware.bluetooth = {
-    enable = true;
-    powerOnBoot = true;
+  hardware = {
+    bluetooth = {
+      enable = true;
+      powerOnBoot = true;
+    };
+    sane.enable = true;
+    # For some reason the avahi options above do not work
+    sane.netConf = "192.168.0.157";
+
+    brillo.enable = true;
+
+    i2c.enable = true;
+    # Required for Sway
+    opengl.enable = true;
+
+    opentabletdriver.enable = true;
   };
-  services.blueman.enable = true;
-
-  services.tailscale.enable = true;
-
-  #services.avahi.enable = true;
-  #services.avahi.nssmdns = true;
-  hardware.sane.enable = true;
-  # For some reason the avahi options above do not work
-  hardware.sane.netConf = "192.168.0.157";
-
-  hardware.brillo.enable = true;
-
-  hardware.i2c.enable = true;
-  # Required for Sway
-  hardware.opengl.enable = true;
-
-  hardware.opentabletdriver.enable = true;
-
   security.polkit.enable = true;
 
   # Sound
@@ -137,7 +139,6 @@
     just
   ];
 
-  programs.nix-index-database.comma.enable = true;
 
   services.greetd = {
     enable = true;
@@ -150,6 +151,8 @@
     };
   };
   programs = {
+    nix-index-database.comma.enable = true;
+    command-not-found.enable = false;
     zsh.enable = true;
     # Required for Stylix
     dconf.enable = true;

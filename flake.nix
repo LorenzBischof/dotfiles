@@ -38,11 +38,13 @@
           stylix.nixosModules.stylix
           home-manager.nixosModules.home-manager
           {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.users.lbischof = import ./hosts/laptop/home.nix;
-            home-manager.extraSpecialArgs = {
-              inherit nix-secrets;
+            home-manager = {
+              useGlobalPkgs = true;
+              useUserPackages = true;
+              users.lbischof = import ./hosts/laptop/home.nix;
+              extraSpecialArgs = {
+                inherit nix-secrets;
+              };
             };
           }
           nix-index-database.nixosModules.nix-index
@@ -72,10 +74,12 @@
         modules = [
           "${nixpkgs}/nixos/modules/installer/sd-card/sd-image-raspberrypi.nix"
           {
-            nixpkgs.config.allowUnsupportedSystem = true;
-            nixpkgs.hostPlatform.system = "armv7l-linux";
-            nixpkgs.buildPlatform.system = "x86_64-linux"; #If you build on x86 other wise changes this.
-            # ... extra configs as above
+            nixpkgs = {
+              config.allowUnsupportedSystem = true;
+              hostPlatform.system = "armv7l-linux";
+              buildPlatform.system = "x86_64-linux"; #If you build on x86 other wise changes this.
+              # ... extra configs as above
+            };
           }
         ];
       };
@@ -87,8 +91,8 @@
           nixpkgs-fmt.enable = true;
           check-merge-conflicts.enable = true;
           commitizen.enable = true;
-          deadnix.enable = true;
-          #statix.enable = true;
+          #deadnix.enable = true;
+          statix.enable = true;
         };
       };
       devShells.${system}.default = pkgs.mkShell {

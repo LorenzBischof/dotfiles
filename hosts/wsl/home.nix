@@ -41,6 +41,14 @@ in
   nixpkgs.config.allowUnfree = true;
 
   programs = {
+    # To start zsh add the following two lines at the bottom of the ~/.bashrc
+    #
+    # export LOCALE_ARCHIVE=/usr/lib/locale/locale-archive
+    # exec zsh
+    #
+    # Notes about the LOCALE_ARCHIVE export:
+    # Unicode characters cannot be printed: https://github.com/starship/starship/issues/290#issuecomment-554315704
+    # Fix: https://github.com/ohmyzsh/ohmyzsh/issues/6985#issuecomment-692576751
     zsh = {
       sessionVariables = {
         http_proxy = "http://localhost:8888";

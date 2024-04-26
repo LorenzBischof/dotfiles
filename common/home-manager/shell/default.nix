@@ -5,9 +5,9 @@
       enable = true;
       enableZshIntegration = true;
       settings = {
-        # add_newline = false;
-        # format = "$character";
-        # right_format = "$all";
+        add_newline = false;
+        format = "$character";
+        right_format = "$all";
       };
     };
     zsh = {

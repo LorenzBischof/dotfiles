@@ -32,6 +32,7 @@
   '';
 
   boot = {
+    binfmt.emulatedSystems = [ "aarch64-linux" ];
     kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
     kernelParams = [ "nohibernate" ];
     loader.grub = {

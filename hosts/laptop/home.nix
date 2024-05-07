@@ -103,11 +103,6 @@
         };
       };
     };
-
-    direnv = {
-      enable = true;
-      nix-direnv.enable = true;
-    };
   };
 
   services.etesync-dav.enable = true;

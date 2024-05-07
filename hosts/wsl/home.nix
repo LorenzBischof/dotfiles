@@ -63,12 +63,6 @@ in
       enable = true;
       addKeysToAgent = "yes";
     };
-
-    direnv = {
-      enable = true;
-      nix-direnv.enable = true;
-    };
-
   };
   # TODO: can we use a yubikey?
   services.ssh-agent.enable = true;

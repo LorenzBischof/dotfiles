@@ -69,7 +69,12 @@
   security.pam.services.swaylock = { };
 
   # Containers
-  virtualisation.podman.enable = true;
+  virtualisation = {
+    podman.enable = true;
+    libvirtd.enable = true;
+  };
+  programs.virt-manager.enable = true;
+
 
   hardware = {
     bluetooth = {
@@ -114,7 +119,7 @@
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.lbischof = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "video" "keyd" "i2c" "scanner" "adbUsers" ];
+    extraGroups = [ "wheel" "video" "keyd" "i2c" "scanner" "adbUsers" "libvirtd" ];
     shell = pkgs.zsh;
   };
 

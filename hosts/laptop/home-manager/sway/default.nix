@@ -241,6 +241,9 @@
         "DP-5" = {
           position = "0 0";
         };
+        "HDMI-A-1" = {
+          position = "0 0";
+        };
         "DP-6" = {
           position = "0 0";
         };

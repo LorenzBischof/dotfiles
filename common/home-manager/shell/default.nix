@@ -1,5 +1,9 @@
 { config, pkgs, lib, ... }:
 {
+  home.packages = with pkgs; [
+    devenv
+    kubectl
+  ];
   programs = {
     direnv = {
       enable = true;
@@ -16,6 +20,9 @@
     };
     zsh = {
       enable = true;
+      shellAliases = {
+        "k" = "kubectl";
+      };
       initExtra = ''
         source ~/.zshrc-extra
       '';

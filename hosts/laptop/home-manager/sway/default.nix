@@ -145,6 +145,8 @@
 
   wayland.windowManager.sway = {
     enable = true;
+    # https://github.com/nix-community/home-manager/issues/5311
+    checkConfig = false;
     extraConfigEarly = ''
       set $WOBSOCK $XDG_RUNTIME_DIR/wob.sock
       exec mkfifo $WOBSOCK && tail -f $WOBSOCK | wob

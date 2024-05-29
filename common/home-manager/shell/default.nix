@@ -16,6 +16,9 @@
         add_newline = false;
         format = "$character";
         right_format = "$all";
+        aws = {
+          disabled = true;
+        };
       };
     };
     zsh = {

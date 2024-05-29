@@ -14,7 +14,7 @@
     };
     nix-secrets = {
       # Access token expires after one year!
-      # https://nixos.org/manual/nix/stable/command-ref/conf-file.html#conf-access-tokens
+      # https://nix.dev/manual/nix/stable/command-ref/conf-file#conf-access-tokens
       # https://github.blog/2022-10-18-introducing-fine-grained-personal-access-tokens-for-github/
       url = "github:lorenzbischof/nix-secrets";
       inputs.nixpkgs.follows = "nixpkgs";

@@ -101,6 +101,11 @@
           user = "hassio";
           identityFile = "~/.ssh/id_ed25519_sk_rk_homelab";
         };
+        "rpi3" = {
+          hostname = "192.168.0.108";
+          user = "nixos";
+          identityFile = "~/.ssh/id_ed25519_sk_rk_homelab";
+        };
       };
     };
   };

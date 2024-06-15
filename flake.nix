@@ -84,6 +84,29 @@
         ];
       };
       images.rpi2 = self.nixosConfigurations.rpi2.config.system.build.sdImage;
+      nixosConfigurations.rpi3 = nixpkgs.lib.nixosSystem {
+        system = "aarch64-linux";
+        modules = [
+          "${nixpkgs}/nixos/modules/installer/sd-card/sd-image-aarch64.nix"
+          {
+            environment.systemPackages = [ pkgs.git ];
+            users.users.nixos = {
+              isNormalUser = true;
+              extraGroups = [ "wheel" "networkmanager" ];
+              openssh.authorizedKeys.keys = [
+                "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIDSKZEtyhueGqUow/G2ewR5TuccLqhrgwWd5VUnd6ImqAAAAC3NzaDpob21lbGFi"
+              ];
+            };
+            services.openssh.enable = true;
+            security.sudo.wheelNeedsPassword = false;
+            nix.settings.trusted-users = [ "nixos" "root" ];
+
+            # bzip2 compression takes loads of time with emulation, skip it.
+            sdImage.compressImage = false;
+          }
+        ];
+      };
+      images.rpi3 = self.nixosConfigurations.rpi3.config.system.build.sdImage;
       formatter.${system} = pkgs.nixpkgs-fmt;
       checks.${system}.pre-commit-check = pre-commit-hooks.lib.${system}.run {
         src = ./.;

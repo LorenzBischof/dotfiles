@@ -7,7 +7,8 @@
     flags = [
       "--update-input"
       "nixpkgs"
-      "--commit-lock-file"
+      # Disable for now, because Git cannot find author identity information
+      #      "--commit-lock-file"
       "-L" # print build logs
     ];
     randomizedDelaySec = "45min";

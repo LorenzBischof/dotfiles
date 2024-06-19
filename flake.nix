@@ -28,7 +28,12 @@
   outputs = { self, nixpkgs, home-manager, stylix, nix-index-database, nix-secrets, pre-commit-hooks, ... }:
     let
       system = "x86_64-linux";
-      pkgs = nixpkgs.legacyPackages.${system};
+      pkgs = import nixpkgs {
+        inherit system;
+        config.permittedInsecurePackages = [
+          "electron"
+        ];
+      };
     in
     {
       nixosConfigurations.laptop = nixpkgs.lib.nixosSystem {

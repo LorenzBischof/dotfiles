@@ -28,6 +28,7 @@
     gnome.simple-scan
     mpv
     gramps
+    imv
     # Required so that Logseq can open links
     # There is probably a NixOS option for this...
     xdg-utils
@@ -49,20 +50,6 @@
     theme = {
       package = pkgs.gnome.gnome-themes-extra;
       name = "Adwaita-dark";
-    };
-  };
-  stylix = {
-    image = ./home-manager/sway/wallpaper_cropped_1.png;
-    base16Scheme = "${pkgs.base16-schemes}/share/themes/eighties.yaml";
-    autoEnable = false;
-    fonts.sizes = {
-      popups = 18;
-      desktop = 14;
-    };
-    cursor = {
-      size = 28;
-      #  package = pkgs.breeze-qt5;
-      #  name = "Breeze";
     };
   };
 

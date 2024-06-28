@@ -196,6 +196,7 @@
     yubikey-touch-detector.enable = true;
     evolution.enable = true;
     adb.enable = true;
+    talon.enable = true;
     nix-ld = {
       enable = true;
       libraries = with pkgs; [

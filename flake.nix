@@ -23,9 +23,13 @@
       url = "github:cachix/pre-commit-hooks.nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    talon = {
+      url = "github:nix-community/talon-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { self, nixpkgs, home-manager, stylix, nix-index-database, nix-secrets, pre-commit-hooks, ... }:
+  outputs = { self, nixpkgs, home-manager, stylix, nix-index-database, nix-secrets, pre-commit-hooks, talon, ... }:
     let
       system = "x86_64-linux";
       pkgs = import nixpkgs {
@@ -41,6 +45,7 @@
         modules = [
           ./hosts/laptop/configuration.nix
           stylix.nixosModules.stylix
+          talon.nixosModules.talon
           home-manager.nixosModules.home-manager
           {
             home-manager = {

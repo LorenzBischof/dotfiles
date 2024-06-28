@@ -61,9 +61,6 @@
     };
   };
 
-  # find "$(nix eval --raw 'nixpkgs#kbd')/share/keymaps" -name '*.map.gz' | grep "de_CH"
-  console.keyMap = "de_CH-latin1";
-
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
   networking = {
@@ -160,19 +157,36 @@
     home-manager
     ddcutil
     just
+    snixembed
   ];
 
 
-  services.greetd = {
+  services.xserver = {
     enable = true;
-    settings = rec {
-      initial_session = {
-        command = "${pkgs.sway}/bin/sway";
-        user = "lbischof";
-      };
-      default_session = initial_session;
+    xkb = {
+      layout = "de";
+      variant = "adnw";
     };
   };
+  console.useXkbConfig = true;
+
+  services.libinput.enable = true;
+  services.xserver.desktopManager.xterm.enable = false;
+  services.xserver.displayManager.startx.enable = true;
+
+  # The following is required for the entries in the login manager
+  # Configuration is managed by home-manager
+  services.xserver.windowManager.i3.enable = true;
+  programs.sway.enable = true;
+
+  services.greetd = {
+    enable = true;
+    settings.default_session = {
+      command = "${pkgs.greetd.tuigreet}/bin/tuigreet --xsessions ${config.services.displayManager.sessionData.desktops}/share/xsessions --sessions ${config.services.displayManager.sessionData.desktops}/share/wayland-sessions --remember --remember-user-session";
+      user = "greeter";
+    };
+  };
+
   programs = {
     nix-index-database.comma.enable = true;
     command-not-found.enable = false;

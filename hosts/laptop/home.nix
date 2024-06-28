@@ -5,6 +5,7 @@
     ./home-manager/dunst
     ./home-manager/foot.nix
     ./home-manager/sway
+    ./home-manager/i3
     ./home-manager/scripts
     ../../common/home-manager/git
     ../../common/home-manager/nvim

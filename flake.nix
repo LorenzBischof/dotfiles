@@ -118,7 +118,6 @@
         hooks = {
           nixpkgs-fmt.enable = true;
           check-merge-conflicts.enable = true;
-          commitizen.enable = true;
           #deadnix.enable = true;
           statix.enable = true;
         };

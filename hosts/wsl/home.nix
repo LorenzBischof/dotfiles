@@ -33,7 +33,7 @@ let
 in
 {
   imports = [
-    ../../common/home-manager/nvim
+    ../../common/home-manager/neovim
     ../../common/home-manager/shell
     ../../common/home-manager/git
   ];

@@ -8,7 +8,7 @@
     ./home-manager/i3
     ./home-manager/scripts
     ../../common/home-manager/git
-    ../../common/home-manager/nvim
+    ../../common/home-manager/neovim
     ../../common/home-manager/shell
     nix-secrets.homeManagerModule
   ];

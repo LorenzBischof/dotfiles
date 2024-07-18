@@ -30,6 +30,8 @@
       lua-language-server
       fzf
       ripgrep
+      terraform-ls
+      regols
     ];
   };
   xdg.configFile.nvim = {

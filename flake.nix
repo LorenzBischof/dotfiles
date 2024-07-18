@@ -40,31 +40,68 @@
       };
     in
     {
-      nixosConfigurations.laptop = nixpkgs.lib.nixosSystem {
-        inherit system;
-        modules = [
-          ./hosts/laptop/configuration.nix
-          stylix.nixosModules.stylix
-          talon.nixosModules.talon
-          home-manager.nixosModules.home-manager
-          {
-            home-manager = {
-              useGlobalPkgs = true;
-              useUserPackages = true;
-              users.lbischof = import ./hosts/laptop/home.nix;
-              extraSpecialArgs = {
-                inherit nix-secrets;
+      nixosConfigurations = {
+        laptop = nixpkgs.lib.nixosSystem {
+          inherit system;
+          modules = [
+            ./hosts/laptop/configuration.nix
+            stylix.nixosModules.stylix
+            talon.nixosModules.talon
+            home-manager.nixosModules.home-manager
+            {
+              home-manager = {
+                useGlobalPkgs = true;
+                useUserPackages = true;
+                users.lbischof = import ./hosts/laptop/home.nix;
+                extraSpecialArgs = {
+                  inherit nix-secrets;
+                };
               };
-            };
-          }
-          nix-index-database.nixosModules.nix-index
-          {
-            # Pin the registry
-            # https://ayats.org/blog/channels-to-flakes/
-            nix.registry.nixpkgs.flake = nixpkgs;
-            nix.nixPath = [ "nixpkgs=flake:nixpkgs" ];
-          }
-        ];
+            }
+            nix-index-database.nixosModules.nix-index
+            {
+              # Pin the registry
+              # https://ayats.org/blog/channels-to-flakes/
+              nix.registry.nixpkgs.flake = nixpkgs;
+              nix.nixPath = [ "nixpkgs=flake:nixpkgs" ];
+            }
+          ];
+        };
+        rpi2 = nixpkgs.lib.nixosSystem {
+          modules = [
+            "${nixpkgs}/nixos/modules/installer/sd-card/sd-image-raspberrypi.nix"
+            {
+              nixpkgs = {
+                config.allowUnsupportedSystem = true;
+                hostPlatform.system = "armv7l-linux";
+                buildPlatform.system = "x86_64-linux"; #If you build on x86 other wise changes this.
+                # ... extra configs as above
+              };
+            }
+          ];
+        };
+        rpi3 = nixpkgs.lib.nixosSystem {
+          system = "aarch64-linux";
+          modules = [
+            "${nixpkgs}/nixos/modules/installer/sd-card/sd-image-aarch64.nix"
+            {
+              environment.systemPackages = [ pkgs.git ];
+              users.users.nixos = {
+                isNormalUser = true;
+                extraGroups = [ "wheel" "networkmanager" ];
+                openssh.authorizedKeys.keys = [
+                  "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIDSKZEtyhueGqUow/G2ewR5TuccLqhrgwWd5VUnd6ImqAAAAC3NzaDpob21lbGFi"
+                ];
+              };
+              services.openssh.enable = true;
+              security.sudo.wheelNeedsPassword = false;
+              nix.settings.trusted-users = [ "nixos" "root" ];
+
+              # bzip2 compression takes loads of time with emulation, skip it.
+              sdImage.compressImage = false;
+            }
+          ];
+        };
       };
       homeConfigurations.bischoflo = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
@@ -80,43 +117,10 @@
           }
         ];
       };
-      nixosConfigurations.rpi2 = nixpkgs.lib.nixosSystem {
-        modules = [
-          "${nixpkgs}/nixos/modules/installer/sd-card/sd-image-raspberrypi.nix"
-          {
-            nixpkgs = {
-              config.allowUnsupportedSystem = true;
-              hostPlatform.system = "armv7l-linux";
-              buildPlatform.system = "x86_64-linux"; #If you build on x86 other wise changes this.
-              # ... extra configs as above
-            };
-          }
-        ];
+      images = {
+        rpi2 = self.nixosConfigurations.rpi2.config.system.build.sdImage;
+        rpi3 = self.nixosConfigurations.rpi3.config.system.build.sdImage;
       };
-      images.rpi2 = self.nixosConfigurations.rpi2.config.system.build.sdImage;
-      nixosConfigurations.rpi3 = nixpkgs.lib.nixosSystem {
-        system = "aarch64-linux";
-        modules = [
-          "${nixpkgs}/nixos/modules/installer/sd-card/sd-image-aarch64.nix"
-          {
-            environment.systemPackages = [ pkgs.git ];
-            users.users.nixos = {
-              isNormalUser = true;
-              extraGroups = [ "wheel" "networkmanager" ];
-              openssh.authorizedKeys.keys = [
-                "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIDSKZEtyhueGqUow/G2ewR5TuccLqhrgwWd5VUnd6ImqAAAAC3NzaDpob21lbGFi"
-              ];
-            };
-            services.openssh.enable = true;
-            security.sudo.wheelNeedsPassword = false;
-            nix.settings.trusted-users = [ "nixos" "root" ];
-
-            # bzip2 compression takes loads of time with emulation, skip it.
-            sdImage.compressImage = false;
-          }
-        ];
-      };
-      images.rpi3 = self.nixosConfigurations.rpi3.config.system.build.sdImage;
       formatter.${system} = pkgs.nixpkgs-fmt;
       checks.${system}.pre-commit-check = pre-commit-hooks.lib.${system}.run {
         src = ./.;

@@ -86,7 +86,6 @@
     podman.enable = true;
     libvirtd.enable = true;
   };
-  programs.virt-manager.enable = true;
 
 
   hardware = {
@@ -197,6 +196,7 @@
     evolution.enable = true;
     adb.enable = true;
     talon.enable = true;
+    virt-manager.enable = true;
     nix-ld = {
       enable = true;
       libraries = with pkgs; [

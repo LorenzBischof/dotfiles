@@ -87,6 +87,9 @@ in
       fregot
       gitlab-runner
       gotools
+      docker-compose
+      awscli2
+      open-policy-agent
     ];
     # Home Manager needs a bit of information about you and the paths it should
     # manage.

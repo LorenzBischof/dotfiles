@@ -21,6 +21,8 @@ opt.mouse = ""
 opt.wrap = false    -- Disable wrapping
 opt.undofile = true -- enable persistent undo
 opt.undolevels = 1000
+opt.splitbelow = true
+opt.splitright = true
 
 -- Set leader key
 g.mapleader = " "
@@ -33,7 +35,7 @@ vim.cmd('colorscheme base16-eighties')
 vim.api.nvim_create_autocmd({ "BufWritePre" }, {
     pattern = { "*" },
     callback = function(ev)
-        save_cursor = vim.fn.getpos(".")
+        local save_cursor = vim.fn.getpos(".")
         vim.cmd([[%s/\s\+$//e]])
         vim.fn.setpos(".", save_cursor)
     end,

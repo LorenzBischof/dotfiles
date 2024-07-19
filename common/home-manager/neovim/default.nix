@@ -1,5 +1,15 @@
 { config, pkgs, lib, ... }:
-
+let
+  fromGitHub = rev: ref: repo: pkgs.vimUtils.buildVimPlugin {
+    pname = "${lib.strings.sanitizeDerivationName repo}";
+    version = ref;
+    src = builtins.fetchGit {
+      inherit rev;
+      url = "https://github.com/${repo}.git";
+      #      ref = ref;
+    };
+  };
+in
 {
 
   programs.neovim = {
@@ -21,6 +31,7 @@
       luasnip
       lsp-zero-nvim
       fzf-lua
+      (fromGitHub "3a22cde57fc5bdf984d1df3464ab32691cb13f00" "v0.3.6" "frankroeder/parrot.nvim")
       #        nvim-tree
     ];
     extraPackages = with pkgs; [

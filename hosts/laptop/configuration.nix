@@ -156,7 +156,6 @@
     home-manager
     ddcutil
     just
-    snixembed
   ];
 
 

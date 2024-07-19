@@ -26,7 +26,7 @@
     dtrx
     jellyfin-media-player
     xournalpp
-    gnome.simple-scan
+    simple-scan
     mpv
     gramps
     imv
@@ -49,7 +49,7 @@
   gtk = {
     enable = true;
     theme = {
-      package = pkgs.gnome.gnome-themes-extra;
+      package = pkgs.gnome-themes-extra;
       name = "Adwaita-dark";
     };
   };
@@ -98,7 +98,8 @@
     };
   };
 
-  services.etesync-dav.enable = true;
+  # https://github.com/NixOS/nixpkgs/issues/328382
+  # services.etesync-dav.enable = true;
 
 
   home = {

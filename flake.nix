@@ -34,15 +34,18 @@
       system = "x86_64-linux";
       pkgs = import nixpkgs {
         inherit system;
-        config.permittedInsecurePackages = [
-          "electron"
-        ];
+        config = {
+          allowUnfree = true;
+          permittedInsecurePackages = [
+            "electron-27.3.11"
+          ];
+        };
       };
     in
     {
       nixosConfigurations = {
         laptop = nixpkgs.lib.nixosSystem {
-          inherit system;
+          inherit system pkgs;
           modules = [
             ./hosts/laptop/configuration.nix
             stylix.nixosModules.stylix

@@ -101,14 +101,13 @@
 
     i2c.enable = true;
     # Required for Sway
-    opengl.enable = true;
+    graphics.enable = true;
 
     opentabletdriver.enable = true;
   };
   security.polkit.enable = true;
 
   # Sound
-  sound.enable = true;
   services.pipewire = {
     enable = true;
     pulse.enable = true;
@@ -147,8 +146,6 @@
       options = "--delete-older-than 1w";
     };
   };
-
-  nixpkgs.config.allowUnfree = true;
 
   environment.systemPackages = with pkgs; [
     vim

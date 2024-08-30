@@ -30,6 +30,8 @@
     mpv
     gramps
     imv
+    wl-mirror
+
     # Required so that Logseq can open links
     # There is probably a NixOS option for this...
     xdg-utils
@@ -56,6 +58,7 @@
 
   fonts.fontconfig.enable = true;
   programs = {
+    obs-studio.enable = true;
     go.enable = true;
     thunderbird = {
       enable = true;

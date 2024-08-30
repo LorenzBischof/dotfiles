@@ -27,9 +27,13 @@
       url = "github:nix-community/talon-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    numen = {
+      url = "github:LorenzBischof/numen-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { self, nixpkgs, home-manager, stylix, nix-index-database, nix-secrets, pre-commit-hooks, talon, ... }:
+  outputs = { self, nixpkgs, home-manager, stylix, nix-index-database, nix-secrets, pre-commit-hooks, talon, numen, ... }:
     let
       system = "x86_64-linux";
       pkgs = import nixpkgs {
@@ -57,7 +61,7 @@
                 useUserPackages = true;
                 users.lbischof = import ./hosts/laptop/home.nix;
                 extraSpecialArgs = {
-                  inherit nix-secrets;
+                  inherit nix-secrets numen;
                 };
               };
             }

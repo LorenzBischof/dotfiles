@@ -1,4 +1,4 @@
-{ config, pkgs, lib, stylix, nix-secrets, ... }:
+{ config, pkgs, lib, stylix, nix-secrets, numen, ... }:
 {
   imports = [
     ./home-manager/alacritty
@@ -11,7 +11,14 @@
     ../../common/home-manager/neovim
     ../../common/home-manager/shell
     nix-secrets.homeManagerModule
+    numen.homeManagerModule
   ];
+
+  services.numen = {
+    enable = true;
+    xkbLayout = "de";
+    xkbVariant = "adnw";
+  };
 
   # The home.packages option allows you to install Nix packages into your
   # environment.

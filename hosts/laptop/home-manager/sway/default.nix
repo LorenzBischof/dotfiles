@@ -189,14 +189,13 @@
           "${mod}+u" = ''
             [con_id="__focused__" app_id="org.keepassxc.KeePassXC"] exec wtype -M ctrl u -m ctrl
           '';
-          "${mod}+d" = ''
+          "${mod}+q" = ''
             [con_id="__focused__" app_id="^(?!foot|org.keepassxc.KeePassXC|Logseq).*$"] kill; [con_id="__focused__" app_id="foot"] exec wtype -M ctrl d -m ctrl; [con_id=__focused__ app_id="org.keepassxc.KeePassXC" tiling] move scratchpad; [con_id=__focused__ app_id="Logseq" tiling] move scratchpad; [con_id=__focused__ floating] floating disable
           '';
           "${mod}+a" = "exec ${pkgs.fuzzel}/bin/fuzzel";
           "${mod}+n" = "exec ${pkgs.swaylock}/bin/swaylock";
           "${mod}+p" = "split h";
           "${mod}+w" = "split v";
-          "${mod}+z" = "fullscreen";
           "${mod}+s" = "layout toggle tabbed split";
           # Alternative solution: https://www.reddit.com/r/swaywm/comments/wtdubk/bind_the_same_key_to_start_move_to_scratchpad/
           # Adding the following seems to always start keepassxc: [app_id="^(?!org.keepassxc.KeePassXC).*$"] exec keepassxc

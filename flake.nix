@@ -74,6 +74,12 @@
             }
           ];
         };
+        nas = nixpkgs.lib.nixosSystem {
+          inherit system pkgs;
+          modules = [
+            ./hosts/nas/configuration.nix
+          ];
+        };
         rpi2 = nixpkgs.lib.nixosSystem {
           modules = [
             "${nixpkgs}/nixos/modules/installer/sd-card/sd-image-raspberrypi.nix"

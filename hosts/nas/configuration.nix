@@ -44,22 +44,24 @@ in
     settings.KbdInteractiveAuthentication = false;
   };
 
-  hardware.fancontrol = {
-    enable = true;
-    config = ''
-      INTERVAL=10
-      DEVPATH=hwmon1=devices/platform/asustor_it87.2608 hwmon2=devices/platform/coretemp.0
-      DEVNAME=hwmon1=it8728 hwmon2=coretemp
-      FCTEMPS= hwmon1/pwm1=hwmon2/temp2_input
-      FCFANS= hwmon1/pwm1=hwmon1/fan1_input
-      MINTEMP= hwmon1/pwm1=20
-      MAXTEMP= hwmon1/pwm1=110
-      MINSTART= hwmon1/pwm1=30
-      MINSTOP= hwmon1/pwm1=18
-      MINPWM=0 hwmon1/pwm1=0
-      MAXPWM=255
-    '';
-  };
+  hardware.fancontrol =
+    let
+      fan = "/sys/devices/platform/asustor_it87.2608/hwmon/hwmon[[:print:]]*";
+    in
+    {
+      enable = true;
+      config = ''
+        INTERVAL=10
+        FCTEMPS=${fan}/pwm1=/sys/devices/platform/coretemp.0/hwmon/hwmon[[:print:]]*/temp2_input
+        FCFANS=${fan}/pwm1=${fan}/fan1_input
+        MINTEMP=${fan}/pwm1=20
+        MAXTEMP=${fan}/pwm1=110
+        MINSTART=${fan}/pwm1=30
+        MINSTOP=${fan}/pwm1=18
+        MINPWM=0 ${fan}/pwm1=0
+        MAXPWM=255
+      '';
+    };
 
   nix = {
     settings = {

@@ -63,6 +63,24 @@ in
       '';
     };
 
+  virtualisation.vmVariant = {
+    virtualisation.qemu.networkingOptions = [
+      "-device virtio-net-pci,netdev=net0"
+      "-netdev tap,id=net0,br=br0,helper=/run/wrappers/bin/qemu-bridge-helper"
+    ];
+
+    # Make sure the password is always correctly set
+    users.mutableUsers = false;
+    users.users.lbischof.password = "test";
+
+    # Set a static IP in the VM
+    # eth0 is the SLIRP interface (not sure why it still exists)
+    networking.interfaces.eth1.ipv4.addresses = [{
+      address = "192.168.1.2";
+      prefixLength = 24;
+    }];
+  };
+
   nix = {
     settings = {
       experimental-features = [ "nix-command" "flakes" ];

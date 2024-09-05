@@ -13,6 +13,7 @@
       ./system/autoupgrade.nix
       ./system/detect-reboot-needed.nix
       ./system/detect-syncthing-conflicts.nix
+      ./system/nas.nix
     ];
 
   stylix = {

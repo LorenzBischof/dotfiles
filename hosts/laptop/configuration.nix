@@ -64,6 +64,9 @@
 
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
+  # https://github.com/systemd/systemd/issues/33083
+  systemd.services.systemd-suspend.environment.SYSTEMD_SLEEP_FREEZE_USER_SESSIONS = "false";
+
   networking = {
     hostId = "ac63adf1";
     hostName = "laptop"; # Define your hostname.

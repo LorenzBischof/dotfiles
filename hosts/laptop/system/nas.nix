@@ -12,10 +12,4 @@
     address = "192.168.1.1";
     prefixLength = 24;
   }];
-  # We cannot use /etc/hosts, because then we would have to manually add every subdomain
-  services.dnsmasq = {
-    enable = true;
-    settings.address = [ "/nas.local/192.168.1.2" ];
-  };
-
 }

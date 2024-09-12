@@ -1,4 +1,4 @@
 result
 .direnv
 .pre-commit-config.yaml
-nixos.qcow2
+nas.qcow2

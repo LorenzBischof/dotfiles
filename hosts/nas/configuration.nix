@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, secrets, ... }:
 let
   asustor-platform-driver = config.boot.kernelPackages.callPackage ./asustor-platform-driver.nix { };
 in
@@ -6,7 +6,11 @@ in
   imports =
     [
       ./hardware-configuration.nix
+      ./monitoring.nix
+      ./homelab.nix
     ];
+
+  homelab.domain = lib.mkDefault secrets.prod-domain;
 
   boot = {
     loader.systemd-boot.enable = true;
@@ -14,7 +18,7 @@ in
     extraModulePackages = [ asustor-platform-driver ];
   };
 
-  networking.hostName = "nixos";
+  networking.hostName = "nas";
 
   networking.networkmanager.enable = true;
 
@@ -64,6 +68,9 @@ in
     };
 
   virtualisation.vmVariant = {
+    homelab.domain = secrets.test-domain;
+    security.acme.defaults.server = "https://acme-staging-v02.api.letsencrypt.org/directory";
+
     virtualisation.qemu.networkingOptions = [
       "-device virtio-net-pci,netdev=net0"
       "-netdev tap,id=net0,br=br0,helper=/run/wrappers/bin/qemu-bridge-helper"

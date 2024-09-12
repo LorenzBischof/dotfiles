@@ -78,7 +78,11 @@
           inherit system pkgs;
           modules = [
             ./hosts/nas/configuration.nix
+            nix-secrets.nixosModules.nas
           ];
+          specialArgs = {
+            secrets = import nix-secrets;
+          };
         };
         rpi2 = nixpkgs.lib.nixosSystem {
           modules = [

@@ -8,6 +8,7 @@ in
       ./hardware-configuration.nix
       ./monitoring.nix
       ./homelab.nix
+      ./homepage.nix
     ];
 
   homelab.domain = lib.mkDefault secrets.prod-domain;

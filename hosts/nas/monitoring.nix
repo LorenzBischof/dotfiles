@@ -1,4 +1,7 @@
 { config, pkgs, secrets, ... }:
+let
+  inherit (config.homelab) domain;
+in
 {
   services = {
     # https://nixos.org/manual/nixos/stable/#module-services-prometheus-exporters
@@ -30,20 +33,31 @@
       enable = true;
       settings = {
         server = {
-          # Listening Address
-          http_addr = "127.0.0.1";
-          domain = "grafana.${config.homelab.domain}";
+          domain = "grafana.${domain}";
         };
       };
     };
-    nginx.virtualHosts."grafana.${config.homelab.domain}" = {
+
+    nginx.virtualHosts."grafana.${domain}" = {
       forceSSL = true;
-      useACMEHost = config.homelab.domain;
+      useACMEHost = domain;
       locations."/" = {
-        proxyPass = "http://${toString config.services.grafana.settings.server.http_addr}:${toString config.services.grafana.settings.server.http_port}";
+        proxyPass = "http://127.0.0.1:${config.services.grafana.settings.server.http_port}";
         proxyWebsockets = true;
         recommendedProxySettings = true;
       };
     };
+
+    homepage-dashboard.services = [
+      {
+        Monitoring = [
+          {
+            "Grafana" = {
+              href = "https://${config.services.grafana.settings.server.domain}";
+            };
+          }
+        ];
+      }
+    ];
   };
 }

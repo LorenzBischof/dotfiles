@@ -9,6 +9,7 @@ in
       ./monitoring.nix
       ./homelab.nix
       ./homepage.nix
+      ./authelia.nix
     ];
 
   homelab.domain = lib.mkDefault secrets.prod-domain;

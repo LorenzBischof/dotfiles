@@ -10,7 +10,7 @@
       # Include the results of the hardware scan.
       ./system/hardware-configuration.nix
       ./system/suspend.nix
-      ./system/autoupgrade.nix
+      #./system/autoupgrade.nix
       ./system/detect-reboot-needed.nix
       ./system/detect-syncthing-conflicts.nix
       ./system/nas.nix

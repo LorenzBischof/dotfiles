@@ -144,8 +144,6 @@
         hooks = {
           nixpkgs-fmt.enable = true;
           check-merge-conflicts.enable = true;
-          #deadnix.enable = true;
-          statix.enable = true;
         };
       };
       devShells.${system}.default = pkgs.mkShell {

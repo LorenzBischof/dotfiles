@@ -56,17 +56,15 @@ let
   vhostOptions = { config, ... }: {
     options = {
       enableAuthelia = lib.mkEnableOption "Enable authelia";
+      locations = lib.mkOption {
+        type = lib.types.attrsOf (lib.types.submodule locationOptions);
+      };
     };
     config = lib.mkIf config.enableAuthelia {
       locations."/authelia" = {
         recommendedProxySettings = false;
         extraConfig = ''
           include ${autheliaLocation};
-        '';
-      };
-      locations."/" = {
-        extraConfig = ''
-          include ${autheliaRequest};
         '';
       };
       # Sadly I did not figure out how to avoid infinite recursion
@@ -77,6 +75,16 @@ let
       #    '';
       #    }
       #  ) config.locations)
+    };
+  };
+  locationOptions = { config, ... }: {
+    options = {
+      enableAuthelia = lib.mkEnableOption "Enable authelia";
+    };
+    config = lib.mkIf config.enableAuthelia {
+      extraConfig = ''
+        include ${autheliaRequest};
+      '';
     };
   };
 

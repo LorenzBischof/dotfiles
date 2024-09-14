@@ -11,6 +11,7 @@
       proxyPass = "http://127.0.0.1:${toString config.services.homepage-dashboard.listenPort}";
       proxyWebsockets = true;
       recommendedProxySettings = true;
+      enableAuthelia = true;
     };
   };
 }

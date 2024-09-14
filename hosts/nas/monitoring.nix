@@ -35,16 +35,46 @@ in
         server = {
           domain = "grafana.${domain}";
         };
+        auth.disable_login_form = true;
+        "auth.anonymous" = {
+          enabled = true;
+          org_role = "Admin";
+        };
+      };
+      provision = {
+        enable = true;
+        datasources.settings.datasources = [{
+          name = "prometheus";
+          type = "prometheus";
+          url = "http://127.0.0.1:${toString config.services.prometheus.port}";
+          access = "proxy";
+          isDefault = true;
+          editable = false;
+        }];
       };
     };
 
     nginx.virtualHosts."grafana.${domain}" = {
       forceSSL = true;
       useACMEHost = domain;
+      enableAuthelia = true;
       locations."/" = {
-        proxyPass = "http://127.0.0.1:${config.services.grafana.settings.server.http_port}";
+        proxyPass = "http://127.0.0.1:${toString config.services.grafana.settings.server.http_port}";
         proxyWebsockets = true;
         recommendedProxySettings = true;
+        enableAuthelia = true;
+      };
+    };
+
+    nginx.virtualHosts."prometheus.${domain}" = {
+      forceSSL = true;
+      useACMEHost = domain;
+      enableAuthelia = true;
+      locations."/" = {
+        proxyPass = "http://127.0.0.1:${toString config.services.prometheus.port}";
+        proxyWebsockets = true;
+        recommendedProxySettings = true;
+        enableAuthelia = true;
       };
     };
 
@@ -54,6 +84,9 @@ in
           {
             "Grafana" = {
               href = "https://${config.services.grafana.settings.server.domain}";
+            };
+            "Prometheus" = {
+              href = "https://prometheus.${domain}";
             };
           }
         ];

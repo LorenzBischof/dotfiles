@@ -10,6 +10,7 @@ in
       ./homelab.nix
       ./homepage.nix
       ./authelia.nix
+      ./backup.nix
     ];
 
   homelab.domain = lib.mkDefault secrets.prod-domain;
@@ -72,6 +73,7 @@ in
   virtualisation.vmVariant = {
     homelab.domain = secrets.test-domain;
     security.acme.defaults.server = "https://acme-staging-v02.api.letsencrypt.org/directory";
+    services.restic.backups.daily.repositoryFile = pkgs.writeText "restic-repo" "/srv/restic-repo";
 
     virtualisation.qemu.networkingOptions = [
       "-device virtio-net-pci,netdev=net0"

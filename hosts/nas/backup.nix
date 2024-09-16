@@ -1,7 +1,4 @@
 { config, pkgs, lib, secrets, ... }:
-let
-  inherit (config.homelab) domain;
-in
 {
   services.restic.backups.daily = {
     initialize = true;

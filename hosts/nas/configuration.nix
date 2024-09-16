@@ -11,6 +11,7 @@ in
       ./homepage.nix
       ./authelia.nix
       ./backup.nix
+      ./paperless.nix
     ];
 
   homelab.domain = lib.mkDefault secrets.prod-domain;
@@ -79,6 +80,11 @@ in
       "-device virtio-net-pci,netdev=net0"
       "-netdev tap,id=net0,br=br0,helper=/run/wrappers/bin/qemu-bridge-helper"
     ];
+
+    virtualisation = {
+      memorySize = 2048; # Use 2048MiB memory.
+      cores = 3;
+    };
 
     # Make sure the password is always correctly set
     users.mutableUsers = false;

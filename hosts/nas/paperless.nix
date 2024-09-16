@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, secrets, ... }:
 let
   backupDir = "/var/cache/paperless-backup";
 in
@@ -10,6 +10,7 @@ in
       PAPERLESS_ADMIN_USER = "paperless";
       PAPERLESS_AUTO_LOGIN_USERNAME = "paperless";
       PAPERLESS_OCR_LANGUAGE = "deu+eng";
+      PAPERLESS_IGNORE_DATES = secrets.paperless-ignore-dates;
     };
   };
   services.nginx.virtualHosts."paperless.${config.homelab.domain}" = {

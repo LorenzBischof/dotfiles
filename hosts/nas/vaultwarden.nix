@@ -25,16 +25,5 @@ in
 
   services.restic.backups.daily.paths = [ backupDir ];
 
-  services.homepage-dashboard.services = [
-    {
-      Services = [
-        {
-          Vaultwarden = {
-            href = config.services.vaultwarden.config.DOMAIN;
-          };
-        }
-      ];
-    }
-  ];
-
+  homelab.dashboard.Services.Vaultwarden.href = "https://bitwarden.${config.homelab.domain}";
 }

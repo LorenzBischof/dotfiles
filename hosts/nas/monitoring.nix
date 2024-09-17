@@ -78,19 +78,13 @@ in
       };
     };
 
-    homepage-dashboard.services = [
-      {
-        Monitoring = [
-          {
-            "Grafana" = {
-              href = "https://${config.services.grafana.settings.server.domain}";
-            };
-            "Prometheus" = {
-              href = "https://prometheus.${domain}";
-            };
-          }
-        ];
-      }
-    ];
+  };
+  homelab.dashboard.Monitoring = {
+    Grafana = {
+      href = "https://${config.services.grafana.settings.server.domain}";
+    };
+    Prometheus = {
+      href = "https://prometheus.${domain}";
+    };
   };
 }

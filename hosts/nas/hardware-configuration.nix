@@ -18,8 +18,20 @@
 
   fileSystems."/" =
     {
-      device = "/dev/disk/by-uuid/acb1dfc6-0c3c-4b1a-b689-640705a60fbc";
-      fsType = "ext4";
+      device = "tank/root";
+      fsType = "zfs";
+    };
+
+  fileSystems."/nix" =
+    {
+      device = "tank/nix";
+      fsType = "zfs";
+    };
+
+  fileSystems."/home" =
+    {
+      device = "tank/home";
+      fsType = "zfs";
     };
 
   fileSystems."/boot" =

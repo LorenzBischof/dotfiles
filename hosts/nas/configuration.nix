@@ -18,12 +18,14 @@ in
   homelab.domain = lib.mkDefault secrets.prod-domain;
 
   boot = {
+    kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
     loader.systemd-boot.enable = true;
     loader.efi.canTouchEfiVariables = true;
     extraModulePackages = [ asustor-platform-driver ];
   };
 
   networking.hostName = "nas";
+  networking.hostId = "115d4c0d";
 
   networking.networkmanager.enable = true;
 
@@ -77,15 +79,31 @@ in
     security.acme.defaults.server = "https://acme-staging-v02.api.letsencrypt.org/directory";
     services.restic.backups.daily.repositoryFile = pkgs.writeText "restic-repo" "/srv/restic-repo";
 
+    virtualisation = {
+      memorySize = 2048;
+      cores = 3;
+    };
+
     virtualisation.qemu.networkingOptions = [
       "-device virtio-net-pci,netdev=net0"
       "-netdev tap,id=net0,br=br0,helper=/run/wrappers/bin/qemu-bridge-helper"
     ];
 
-    virtualisation = {
-      memorySize = 2048; # Use 2048MiB memory.
-      cores = 3;
+    #    virtualisation.useBootLoader = true;
+    virtualisation.useEFIBoot = true;
+
+    virtualisation.useDefaultFilesystems = false;
+    virtualisation.fileSystems."/" = {
+      device = "tank/root";
+      fsType = "zfs";
     };
+
+    # These commands are run on every boot, but fail if the zpool already exists
+    boot.initrd.postDeviceCommands = ''
+      zpool create -O mountpoint=none -O atime=off -O xattr=sa -O acltype=posixacl -o ashift=12 tank /dev/vda
+      zfs create -o mountpoint=legacy tank/root
+      zfs snapshot tank/root@blank
+    '';
 
     # Make sure the password is always correctly set
     users.mutableUsers = false;

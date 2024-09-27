@@ -31,9 +31,13 @@
       url = "github:LorenzBischof/numen-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nixos-generators = {
+      url = "github:nix-community/nixos-generators";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { self, nixpkgs, home-manager, stylix, nix-index-database, nix-secrets, pre-commit-hooks, talon, numen, ... }:
+  outputs = { self, nixpkgs, home-manager, stylix, nix-index-database, nix-secrets, pre-commit-hooks, talon, numen, nixos-generators, ... }:
     let
       system = "x86_64-linux";
       pkgs = import nixpkgs {
@@ -137,6 +141,17 @@
       images = {
         rpi2 = self.nixosConfigurations.rpi2.config.system.build.sdImage;
         rpi3 = self.nixosConfigurations.rpi3.config.system.build.sdImage;
+      };
+      packages.x86_64-linux.default = nixos-generators.nixosGenerate {
+        system = "x86_64-linux";
+        modules = [
+          { device = "nas"; mainuser = "lbischof"; }
+          ./hosts/iso/configuration.nix
+        ];
+        specialArgs = {
+          inherit self nixpkgs;
+        };
+        format = "install-iso";
       };
       formatter.${system} = pkgs.nixpkgs-fmt;
       checks.${system}.pre-commit-check = pre-commit-hooks.lib.${system}.run {

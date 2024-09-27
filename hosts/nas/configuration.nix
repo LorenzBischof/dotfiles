@@ -65,7 +65,7 @@ in
         INTERVAL=10
         FCTEMPS=${fan}/pwm1=/sys/devices/platform/coretemp.0/hwmon/hwmon[[:print:]]*/temp2_input
         FCFANS=${fan}/pwm1=${fan}/fan1_input
-        MINTEMP=${fan}/pwm1=20
+        MINTEMP=${fan}/pwm1=40
         MAXTEMP=${fan}/pwm1=110
         MINSTART=${fan}/pwm1=30
         MINSTOP=${fan}/pwm1=18

@@ -32,6 +32,8 @@
         environmentFile = config.age.secrets.cloudflare-token.path;
         extraDomainNames = [ "*.${config.homelab.domain}" ];
         group = "nginx";
+        # For some reason the TXT challenge could not be resolved otherwise
+        extraLegoFlags = [ "--dns.resolvers=1.1.1.1" ];
       };
     };
   };

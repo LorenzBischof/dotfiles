@@ -13,6 +13,7 @@ in
       ./backup.nix
       ./paperless.nix
       ./vaultwarden.nix
+      ./syncthing.nix
     ];
 
   homelab.domain = lib.mkDefault secrets.prod-domain;

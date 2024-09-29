@@ -14,6 +14,7 @@ in
       ./paperless.nix
       ./vaultwarden.nix
       ./syncthing.nix
+      ./media.nix
     ];
 
   homelab.domain = lib.mkDefault secrets.prod-domain;

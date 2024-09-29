@@ -23,12 +23,28 @@ in
     loader.systemd-boot.enable = true;
     loader.efi.canTouchEfiVariables = true;
     extraModulePackages = [ asustor-platform-driver ];
+    kernelModules = [ "r8169" ];
+    initrd = {
+      kernelModules = [ "r8169" ];
+      network = {
+        enable = true;
+        ssh = {
+          enable = true;
+          port = 2222;
+          hostKeys = [ "/boot/initrd-host-key" ];
+          authorizedKeys = config.users.users.lbischof.openssh.authorizedKeys.keys;
+        };
+        postCommands = ''
+          echo "zfs load-key -a; killall zfs" >> /root/.profile
+        '';
+      };
+    };
   };
 
   networking.hostName = "nas";
   networking.hostId = "115d4c0d";
 
-  networking.networkmanager.enable = true;
+  networking.useDHCP = true;
 
   time.timeZone = "Europe/Zurich";
 

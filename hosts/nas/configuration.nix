@@ -72,6 +72,16 @@ in
     settings.KbdInteractiveAuthentication = false;
   };
 
+  services.tailscale = {
+    enable = true;
+    openFirewall = true;
+    authKeyFile = config.age.secrets.tailscale-preauth.path;
+    extraUpFlags = [
+      "--accept-dns=false"
+      "--advertise-routes=192.168.0.0/24"
+    ];
+  };
+
   hardware.fancontrol =
     let
       fan = "/sys/devices/platform/asustor_it87.2608/hwmon/hwmon[[:print:]]*";

@@ -59,6 +59,7 @@
             stylix.nixosModules.stylix
             talon.nixosModules.talon
             home-manager.nixosModules.home-manager
+            nix-secrets.nixosModules.laptop
             {
               home-manager = {
                 useGlobalPkgs = true;

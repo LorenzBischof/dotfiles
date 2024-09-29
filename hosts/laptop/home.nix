@@ -79,21 +79,6 @@
         "*" = {
           identitiesOnly = true;
         };
-        "asustor" = {
-          hostname = "192.168.0.124";
-          user = "jagxtqoanxgsj";
-          identityFile = "~/.ssh/id_ed25519_sk_rk_homelab";
-        };
-        "nas" = {
-          hostname = "192.168.0.124";
-          user = "lbischof";
-          identityFile = "~/.ssh/id_ed25519_sk_rk_homelab";
-        };
-        "helios" = {
-          hostname = "192.168.0.20";
-          user = "lbischof";
-          identityFile = "~/.ssh/id_ed25519_sk_rk_homelab";
-        };
         "scanner" = {
           hostname = "192.168.0.157";
           user = "pi";

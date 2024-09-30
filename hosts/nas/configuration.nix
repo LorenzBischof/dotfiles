@@ -24,9 +24,9 @@ in
     loader.systemd-boot.enable = true;
     loader.efi.canTouchEfiVariables = true;
     extraModulePackages = [ asustor-platform-driver ];
-    kernelModules = [ "r8169" ];
+    kernelModules = [ "r8169" "asustor_gpio_it87" "asustor_it87" ];
     initrd = {
-      kernelModules = [ "r8169" ];
+      kernelModules = [ "r8169" "asustor_gpio_it87" "asustor_it87" ];
       network = {
         enable = true;
         ssh = {
@@ -36,11 +36,25 @@ in
           authorizedKeys = config.users.users.lbischof.openssh.authorizedKeys.keys;
         };
         postCommands = ''
+          # blink faster
+          echo 0 | tee /sys/devices/platform/asustor_it87.*/hwmon/hwmon*/gpled1_blink_freq
           echo "zfs load-key -a; killall zfs" >> /root/.profile
         '';
       };
     };
   };
+
+  systemd.services.leds = {
+    description = "Set the LEDs";
+    script = ''
+      # reduce brightness
+      echo 200 | tee /sys/devices/platform/asustor_it87.*/hwmon/hwmon*/pwm3
+      # stop blinking
+      echo 0 | tee /sys/devices/platform/asustor_it87.*/hwmon/hwmon*/gpled1_blink
+    '';
+    wantedBy = [ "multi-user.target" ];
+  };
+
 
   networking.hostName = "nas";
   networking.hostId = "115d4c0d";

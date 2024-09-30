@@ -10,4 +10,10 @@
       config.homelab.storage
     ];
   };
+  services.prometheus.exporters.restic = {
+    enable = true;
+    repository = secrets.restic-repository;
+    passwordFile = config.age.secrets.restic-password.path;
+    environmentFile = config.age.secrets.restic-env.path;
+  };
 }

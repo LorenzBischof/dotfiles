@@ -15,6 +15,7 @@ in
       ./vaultwarden.nix
       ./syncthing.nix
       ./media.nix
+      ./photos.nix
     ];
 
   homelab.domain = lib.mkDefault secrets.prod-domain;

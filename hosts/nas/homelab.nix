@@ -6,15 +6,8 @@
       example = "example.com";
       description = "The domain where services are reachable";
     };
-    homelab.storage = lib.mkOption {
-      type = lib.types.str;
-      default = "/data";
-    };
   };
   config = {
-    systemd.tmpfiles.rules = [
-      "d ${config.homelab.storage} - - - - -"
-    ];
     services.nginx = {
       enable = true;
 

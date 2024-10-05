@@ -23,6 +23,10 @@ in
     };
   };
 
+  # In addition to the timer also backup directly before the daily restic backup
+  systemd.services.backup-vaultwarden.requiredBy = [ "restic-backups-daily.service" ];
+  systemd.services.backup-vaultwarden.before = [ "restic-backups-daily.service" ];
+
   services.restic.backups.daily.paths = [ backupDir ];
 
   homelab.dashboard.Services.Vaultwarden.href = "https://bitwarden.${config.homelab.domain}";

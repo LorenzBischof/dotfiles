@@ -45,14 +45,30 @@ in
   };
 
   systemd.services.leds = {
-    description = "Set the LEDs";
+    serviceConfig = {
+      Type = "oneshot";
+    };
     script = ''
       # reduce brightness
       echo 200 | tee /sys/devices/platform/asustor_it87.*/hwmon/hwmon*/pwm3
       # stop blinking
       echo 0 | tee /sys/devices/platform/asustor_it87.*/hwmon/hwmon*/gpled1_blink
     '';
-    wantedBy = [ "multi-user.target" ];
+    wantedBy = [ "multi-user.target" "suspend.target" ];
+    after = [ "suspend.target" ];
+  };
+
+  systemd.services.powersave = {
+    serviceConfig = {
+      Type = "oneshot";
+    };
+    script = ''
+      # use `systemctl` instead of `-m mem`, because of better integration with systemd
+      # this allows scripts to be run when waking up, by using the suspend.target
+      rtcwake -m no -t $(date -d 'tomorrow 8:00:00' '+%s') && systemctl suspend
+    '';
+    path = [ pkgs.util-linux ];
+    startAt = "21:00";
   };
 
 

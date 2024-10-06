@@ -21,7 +21,6 @@ in
   homelab.domain = lib.mkDefault secrets.prod-domain;
 
   boot = {
-    kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
     loader.systemd-boot.enable = true;
     loader.efi.canTouchEfiVariables = true;
     extraModulePackages = [ asustor-platform-driver ];

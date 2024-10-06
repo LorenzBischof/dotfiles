@@ -8,7 +8,7 @@ in
   systemd.tmpfiles.settings."10-photos" = {
     ${photosDir}.d = {
       group = "photos";
-      mode = "0770";
+      mode = "0750";
     };
   };
   services.restic.backups.daily.paths = [ photosDir ];

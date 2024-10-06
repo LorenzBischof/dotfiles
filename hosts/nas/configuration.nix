@@ -27,7 +27,7 @@ in
     extraModulePackages = [ asustor-platform-driver ];
     kernelModules = [ "r8169" "asustor_gpio_it87" "asustor_it87" ];
     initrd = {
-      kernelModules = [ "r8169" "asustor_gpio_it87" "asustor_it87" ];
+      kernelModules = config.boot.kernelModules;
       network = {
         enable = true;
         ssh = {
@@ -76,6 +76,8 @@ in
   networking.hostName = "nas";
   networking.hostId = "115d4c0d";
 
+  services.zfs.autoScrub.enable = true;
+
   networking.useDHCP = true;
 
   time.timeZone = "Europe/Zurich";
@@ -92,6 +94,7 @@ in
       "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIDSKZEtyhueGqUow/G2ewR5TuccLqhrgwWd5VUnd6ImqAAAAC3NzaDpob21lbGFi"
     ];
   };
+  security.sudo.wheelNeedsPassword = false;
 
   environment.systemPackages = with pkgs; [
     vim
@@ -124,12 +127,13 @@ in
         INTERVAL=10
         FCTEMPS=${fan}/pwm1=/sys/devices/platform/coretemp.0/hwmon/hwmon[[:print:]]*/temp2_input
         FCFANS=${fan}/pwm1=${fan}/fan1_input
-        MINTEMP=${fan}/pwm1=40
-        MAXTEMP=${fan}/pwm1=110
+        MINTEMP=${fan}/pwm1=60
+        MAXTEMP=${fan}/pwm1=100
         MINSTART=${fan}/pwm1=30
-        MINSTOP=${fan}/pwm1=18
-        MINPWM=0 ${fan}/pwm1=0
+        MINSTOP=${fan}/pwm1=50
+        MINPWM=${fan}/pwm1=50
         MAXPWM=255
+        AVERAGE=5
       '';
     };
 

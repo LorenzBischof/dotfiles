@@ -13,12 +13,14 @@
         laptop.id = secrets.syncthing-devices.laptop;
         pixel-6a.id = secrets.syncthing-devices.pixel-6a;
         pixel-7.id = secrets.syncthing-devices.pixel-7;
+        macbook.id = secrets.syncthing-devices.macbook;
+        scanner.id = secrets.syncthing-devices.scanner;
       };
       folders = {
         home = {
           id = "jl3m1-4ls92";
           path = "~/home";
-          devices = [ "laptop" "pixel-6a" "pixel-7" ];
+          devices = [ "laptop" "pixel-6a" "pixel-7" "macbook" ];
         };
         files-lo = {
           id = "ztx9n-wzrke";
@@ -28,7 +30,7 @@
         paperless-consume = {
           id = "uukkv-dqhnx";
           path = config.services.paperless.consumptionDir;
-          devices = [ "pixel-6a" "pixel-7" ];
+          devices = [ "pixel-6a" "pixel-7" "scanner" ];
         };
         photos = {
           id = "y9793-spumx";

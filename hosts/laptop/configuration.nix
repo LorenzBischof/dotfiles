@@ -288,6 +288,15 @@
     thermald.enable = true;
   };
 
+  # https://github.com/logseq/logseq/issues/10851
+  nixpkgs.overlays = [
+    (final: prev: {
+      logseq = prev.logseq.override {
+        electron = prev.electron_27;
+      };
+    })
+  ];
+
   # https://github.com/NixOS/nixpkgs/issues/180175
   systemd.services.NetworkManager-wait-online.enable = false;
 

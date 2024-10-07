@@ -1,14 +1,34 @@
 { config, pkgs, secrets, ... }:
 let
   inherit (config.homelab) domain;
+  textfileDir = "/var/lib/prometheus-node-exporter-textfile";
 in
 {
+  systemd.tmpfiles.settings."10-monitoring" = {
+    ${textfileDir}.d = { };
+  };
+
+  system.activationScripts.node-exporter-system-version = ''
+    cd ${textfileDir}
+    (
+      echo -n "system_version ";
+      readlink /nix/var/nix/profiles/system | cut -d- -f2
+    ) > system-version.prom.next
+    mv system-version.prom.next system-version.prom
+  '';
+
   services = {
     prometheus.exporters.node = {
       enable = true;
-      enabledCollectors = [ "systemd" "processes" ];
+      enabledCollectors = [
+        "systemd"
+        "processes"
+        "textfile"
+      ];
+      extraFlags = [
+        "--collector.textfile.directory=${textfileDir}"
+      ];
     };
-
     prometheus = {
       enable = true;
       scrapeConfigs = [

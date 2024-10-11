@@ -34,15 +34,24 @@
         };
         photos = {
           id = "y9793-spumx";
-          path = "~/path";
+          path = "~/photos";
           devices = [ "pixel-6a" "pixel-7" ];
         };
       };
     };
   };
-  systemd.tmpfiles.settings."10-paperless".${config.services.paperless.consumptionDir}.d = {
-    group = lib.mkForce config.services.syncthing.group;
-    mode = "0770";
+  systemd.tmpfiles.settings."10-syncthing" = {
+    ${config.services.paperless.consumptionDir}.d = {
+      group = lib.mkForce config.services.syncthing.group;
+      mode = "0770";
+    };
+    # Ensure the group has execute permissions on the directory
+    # Or else we cannot access files via group
+    ${config.services.syncthing.dataDir}.d = {
+      user = config.services.syncthing.user;
+      group = config.services.syncthing.group;
+      mode = "0750";
+    };
   };
   services.nginx.virtualHosts."syncthing.${config.homelab.domain}" = {
     forceSSL = true;

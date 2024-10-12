@@ -33,4 +33,19 @@
     environment.RESTIC_CACHE_DIR = "/var/cache/restic-exporter";
     serviceConfig.CacheDirectory = "restic-exporter";
   };
+
+  services.restic.backups.daily.backupPrepareCommand = "${pkgs.curl}/bin/curl -fsS -m 10 --retry 5 -o /dev/null https://hc-ping.com/$HC_UUID/start";
+
+  systemd.services."restic-backups-daily" = {
+    onSuccess = [ "restic-notify-daily@success.service" ];
+    onFailure = [ "restic-notify-daily@failure.service" ];
+  };
+
+  systemd.services."restic-notify-daily@" = {
+    serviceConfig = {
+      Type = "oneshot";
+      EnvironmentFile = config.age.secrets.restic-env.path; # contains heathchecks.io UUID
+      ExecStart = "${pkgs.curl}/bin/curl -fsS -m 10 --retry 5 -o /dev/null https://hc-ping.com/\${HC_UUID}/\${MONITOR_EXIT_STATUS}";
+    };
+  };
 }

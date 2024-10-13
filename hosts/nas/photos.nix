@@ -5,6 +5,7 @@ in
 {
   users.groups.photos = { };
   users.users.immich.extraGroups = [ "syncthing" ];
+  users.users.syncthing.homeMode = "0750";
 
   systemd.tmpfiles.settings."10-photos" = {
     ${photosDir}.d = {

@@ -12,8 +12,10 @@
       enable = true;
 
       virtualHosts."_" = {
+        useACMEHost = config.homelab.domain;
+        addSSL = true;
         default = true;
-        locations."/".return = 444;
+        locations."/".return = 404;
       };
     };
     networking.firewall.allowedTCPPorts = [ 80 443 ];

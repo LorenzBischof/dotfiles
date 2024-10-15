@@ -101,6 +101,8 @@ in
         jwtSecretFile = config.age.secrets.authelia-jwt-secret.path;
         storageEncryptionKeyFile = config.age.secrets.authelia-storage-encryption-key.path;
         sessionSecretFile = config.age.secrets.authelia-session-secret.path;
+        oidcIssuerPrivateKeyFile = config.age.secrets.authelia-oidc-key.path;
+        oidcHmacSecretFile = config.age.secrets.authelia-oidc-hmac.path;
       };
       settings = {
         authentication_backend.file.path = config.age.secrets.authelia-users.path;
@@ -114,6 +116,21 @@ in
         session.redis.host = config.services.redis.servers.authelia-main.unixSocket;
         storage.local.path = "/var/lib/authelia-main/db.sqlite3";
         notifier.filesystem.filename = "/var/lib/authelia-main/notification.txt";
+        identity_providers.oidc = {
+          clients = [
+            {
+              client_id = "audiobookshelf";
+              client_secret = secrets.authelia-clients-audiobookshelf;
+              authorization_policy = "one_factor";
+              redirect_uris = [
+                "https://audiobookshelf.${domain}/auth/openid/callback"
+                "https://audiobookshelf.${domain}/auth/openid/mobile-redirect"
+                "audiobookshelf://oauth"
+              ];
+              consent_mode = "implicit";
+            }
+          ];
+        };
       };
     };
     services.redis.servers.authelia-main = {

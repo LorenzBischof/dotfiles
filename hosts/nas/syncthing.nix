@@ -40,7 +40,7 @@
       };
     };
   };
-  systemd.tmpfiles.settings."10-syncthing" = {
+  systemd.tmpfiles.settings."10-paperless" = {
     ${config.services.paperless.consumptionDir}.d = {
       group = lib.mkForce config.services.syncthing.group;
       mode = "0770";

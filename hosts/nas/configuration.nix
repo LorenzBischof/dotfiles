@@ -44,7 +44,8 @@ in
     };
   };
 
-  systemd.services.leds = {
+  systemd.services.asustor-leds-control = {
+    description = "Control Asustor NAS LEDs";
     serviceConfig = {
       Type = "oneshot";
     };
@@ -58,7 +59,9 @@ in
     after = [ "suspend.target" ];
   };
 
-  systemd.services.powersave = {
+  systemd.services.scheduled-suspend = {
+    description = "Schedule system suspend at night";
+    enable = false;
     serviceConfig = {
       Type = "oneshot";
     };
@@ -74,6 +77,7 @@ in
 
   networking.hostName = "nas";
   networking.hostId = "115d4c0d";
+  networking.nameservers = [ "1.1.1.1" "9.9.9.9" ];
 
   services.zfs.autoScrub.enable = true;
 
@@ -127,7 +131,7 @@ in
         FCTEMPS=${fan}/pwm1=/sys/devices/platform/coretemp.0/hwmon/hwmon[[:print:]]*/temp2_input
         FCFANS=${fan}/pwm1=${fan}/fan1_input
         MINTEMP=${fan}/pwm1=60
-        MAXTEMP=${fan}/pwm1=100
+        MAXTEMP=${fan}/pwm1=110
         MINSTART=${fan}/pwm1=30
         MINSTOP=${fan}/pwm1=50
         MINPWM=${fan}/pwm1=50
@@ -135,6 +139,19 @@ in
         AVERAGE=5
       '';
     };
+
+  services.thermald.enable = true;
+  # https://github.com/NixOS/nixpkgs/issues/347804
+  services.auto-cpufreq = {
+    enable = true;
+    settings = {
+      charger = {
+        governor = "powersave";
+        turbo = "auto";
+      };
+    };
+  };
+
 
   virtualisation.vmVariant = {
     homelab.domain = secrets.test-domain;

@@ -8,6 +8,7 @@ in
     ${textfileDir}.d = { };
   };
 
+  # https://grahamc.com/blog/nixos-system-version-prometheus/
   system.activationScripts.node-exporter-system-version = ''
     cd ${textfileDir}
     (

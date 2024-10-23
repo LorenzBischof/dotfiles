@@ -105,6 +105,7 @@ in
         oidcHmacSecretFile = config.age.secrets.authelia-oidc-hmac.path;
       };
       settings = {
+        log.level = "info";
         authentication_backend.file.path = config.age.secrets.authelia-users.path;
         access_control.default_policy = "one_factor";
         session.cookies = [

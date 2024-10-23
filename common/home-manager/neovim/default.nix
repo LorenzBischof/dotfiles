@@ -1,6 +1,6 @@
 { config, pkgs, lib, ... }:
 let
-  fromGitHub = rev: ref: repo: pkgs.vimUtils.buildVimPlugin {
+  vimPluginFromGitHub = rev: ref: repo: pkgs.vimUtils.buildVimPlugin {
     pname = "${lib.strings.sanitizeDerivationName repo}";
     version = ref;
     src = builtins.fetchGit {
@@ -11,6 +11,11 @@ let
   };
 in
 {
+  _module.args.vimPluginFromGitHub = vimPluginFromGitHub;
+  imports = [
+    ./avante.nix
+    ./treesitter.nix
+  ];
 
   programs.neovim = {
     enable = true;
@@ -31,7 +36,7 @@ in
       luasnip
       lsp-zero-nvim
       fzf-lua
-      (fromGitHub "3a22cde57fc5bdf984d1df3464ab32691cb13f00" "v0.3.6" "frankroeder/parrot.nvim")
+      #      (vimPluginFromGitHub "3a22cde57fc5bdf984d1df3464ab32691cb13f00" "v0.3.6" "frankroeder/parrot.nvim")
       #        nvim-tree
     ];
     extraPackages = with pkgs; [

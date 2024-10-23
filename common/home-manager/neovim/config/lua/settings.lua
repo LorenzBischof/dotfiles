@@ -23,9 +23,10 @@ opt.undofile = true -- enable persistent undo
 opt.undolevels = 1000
 opt.splitbelow = true
 opt.splitright = true
+opt.laststatus = 3
 
 -- Set leader key
-g.mapleader = " "
+g.mapleader = "ß"
 
 -- set nospell
 -- set updatetime=100

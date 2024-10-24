@@ -17,6 +17,7 @@ in
       ./media.nix
       ./photos.nix
       ./offline-backup.nix
+      ./tiddlywiki.nix
     ];
 
   homelab.domain = lib.mkDefault secrets.prod-domain;

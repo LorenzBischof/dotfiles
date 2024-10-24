@@ -16,6 +16,7 @@ in
       ./syncthing.nix
       ./media.nix
       ./photos.nix
+      ./offline-backup.nix
     ];
 
   homelab.domain = lib.mkDefault secrets.prod-domain;

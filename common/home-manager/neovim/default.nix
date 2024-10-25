@@ -1,14 +1,21 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 let
-  vimPluginFromGitHub = rev: ref: repo: pkgs.vimUtils.buildVimPlugin {
-    pname = "${lib.strings.sanitizeDerivationName repo}";
-    version = ref;
-    src = builtins.fetchGit {
-      inherit rev;
-      url = "https://github.com/${repo}.git";
-      #      ref = ref;
+  vimPluginFromGitHub =
+    rev: ref: repo:
+    pkgs.vimUtils.buildVimPlugin {
+      pname = "${lib.strings.sanitizeDerivationName repo}";
+      version = ref;
+      src = builtins.fetchGit {
+        inherit rev;
+        url = "https://github.com/${repo}.git";
+        #      ref = ref;
+      };
     };
-  };
 in
 {
   _module.args.vimPluginFromGitHub = vimPluginFromGitHub;

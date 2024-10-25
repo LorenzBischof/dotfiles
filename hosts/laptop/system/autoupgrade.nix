@@ -25,31 +25,29 @@
       onSuccess = [ "notify-upgrade-success.service" ];
       onFailure = [ "notify-upgrade-failure.service" ];
     };
-    "notify-upgrade-success" =
-      {
-        serviceConfig = {
-          User = "lbischof";
-        };
-        environment = {
-          # The variable %U does not seem to work
-          DBUS_SESSION_BUS_ADDRESS = "unix:path=/run/user/1000/bus";
-        };
-        script = ''
-          ${pkgs.libnotify}/bin/notify-send "Auto upgrade success";
-        '';
+    "notify-upgrade-success" = {
+      serviceConfig = {
+        User = "lbischof";
       };
-    "notify-upgrade-failure" =
-      {
-        serviceConfig = {
-          User = "lbischof";
-        };
-        environment = {
-          # The variable %U does not seem to work
-          DBUS_SESSION_BUS_ADDRESS = "unix:path=/run/user/1000/bus";
-        };
-        script = ''
-          ${pkgs.libnotify}/bin/notify-send --urgency=critical "Auto upgrade failure!";
-        '';
+      environment = {
+        # The variable %U does not seem to work
+        DBUS_SESSION_BUS_ADDRESS = "unix:path=/run/user/1000/bus";
       };
+      script = ''
+        ${pkgs.libnotify}/bin/notify-send "Auto upgrade success";
+      '';
+    };
+    "notify-upgrade-failure" = {
+      serviceConfig = {
+        User = "lbischof";
+      };
+      environment = {
+        # The variable %U does not seem to work
+        DBUS_SESSION_BUS_ADDRESS = "unix:path=/run/user/1000/bus";
+      };
+      script = ''
+        ${pkgs.libnotify}/bin/notify-send --urgency=critical "Auto upgrade failure!";
+      '';
+    };
   };
 }

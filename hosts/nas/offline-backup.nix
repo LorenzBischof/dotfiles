@@ -1,4 +1,9 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 let
   disks = pkgs.writeText "disks" ''
@@ -8,7 +13,12 @@ let
   offline-backup = pkgs.writeShellApplication {
     name = "offline-backup";
 
-    runtimeInputs = with pkgs; [ curl cryptsetup util-linux rsync ];
+    runtimeInputs = with pkgs; [
+      curl
+      cryptsetup
+      util-linux
+      rsync
+    ];
 
     text = ''
       echo 1 > /sys/class/leds/green:usb/brightness

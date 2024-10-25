@@ -37,16 +37,27 @@
     };
   };
 
-  outputs = { self, nixpkgs, home-manager, stylix, nix-index-database, nix-secrets, pre-commit-hooks, talon, numen, nixos-generators, ... }:
+  outputs =
+    {
+      self,
+      nixpkgs,
+      home-manager,
+      stylix,
+      nix-index-database,
+      nix-secrets,
+      pre-commit-hooks,
+      talon,
+      numen,
+      nixos-generators,
+      ...
+    }:
     let
       system = "x86_64-linux";
       pkgs = import nixpkgs {
         inherit system;
         config = {
           allowUnfree = true;
-          permittedInsecurePackages = [
-            "electron-27.3.11"
-          ];
+          permittedInsecurePackages = [ "electron-27.3.11" ];
         };
       };
     in
@@ -96,7 +107,7 @@
               nixpkgs = {
                 config.allowUnsupportedSystem = true;
                 hostPlatform.system = "armv7l-linux";
-                buildPlatform.system = "x86_64-linux"; #If you build on x86 other wise changes this.
+                buildPlatform.system = "x86_64-linux"; # If you build on x86 other wise changes this.
                 # ... extra configs as above
               };
             }
@@ -110,14 +121,20 @@
               environment.systemPackages = [ pkgs.git ];
               users.users.nixos = {
                 isNormalUser = true;
-                extraGroups = [ "wheel" "networkmanager" ];
+                extraGroups = [
+                  "wheel"
+                  "networkmanager"
+                ];
                 openssh.authorizedKeys.keys = [
                   "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIDSKZEtyhueGqUow/G2ewR5TuccLqhrgwWd5VUnd6ImqAAAAC3NzaDpob21lbGFi"
                 ];
               };
               services.openssh.enable = true;
               security.sudo.wheelNeedsPassword = false;
-              nix.settings.trusted-users = [ "nixos" "root" ];
+              nix.settings.trusted-users = [
+                "nixos"
+                "root"
+              ];
 
               # bzip2 compression takes loads of time with emulation, skip it.
               sdImage.compressImage = false;
@@ -135,7 +152,7 @@
             # Pin the registry
             # https://ayats.org/blog/channels-to-flakes/
             nix.registry.nixpkgs.flake = nixpkgs;
-            home.sessionVariables.NIX_PATH = "nixpkgs=flake:nixpkgs$\{NIX_PATH:+:$NIX_PATH}";
+            home.sessionVariables.NIX_PATH = "nixpkgs=flake:nixpkgs\${NIX_PATH:+:$NIX_PATH}";
           }
         ];
       };
@@ -146,7 +163,10 @@
       packages.x86_64-linux.default = nixos-generators.nixosGenerate {
         system = "x86_64-linux";
         modules = [
-          { device = "nas"; mainuser = "lbischof"; }
+          {
+            device = "nas";
+            mainuser = "lbischof";
+          }
           ./hosts/iso/configuration.nix
         ];
         specialArgs = {
@@ -154,11 +174,11 @@
         };
         format = "install-iso";
       };
-      formatter.${system} = pkgs.nixpkgs-fmt;
+      formatter.${system} = pkgs.nixfmt-rfc-style;
       checks.${system}.pre-commit-check = pre-commit-hooks.lib.${system}.run {
         src = ./.;
         hooks = {
-          nixpkgs-fmt.enable = true;
+          nixfmt-rfc-style.enable = true;
           check-merge-conflicts.enable = true;
         };
       };

@@ -4,8 +4,9 @@
     plugins = with pkgs.vimPlugins; [
       lualine-nvim
     ];
-    extraLuaConfig = /* lua */ ''
-      require('lualine').setup()
-    '';
+    extraLuaConfig = # lua
+      ''
+        require('lualine').setup()
+      '';
   };
 }

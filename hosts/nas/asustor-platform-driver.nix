@@ -1,4 +1,11 @@
-{ stdenv, lib, fetchFromGitHub, kernel, kmod, ... }:
+{
+  stdenv,
+  lib,
+  fetchFromGitHub,
+  kernel,
+  kmod,
+  ...
+}:
 
 stdenv.mkDerivation rec {
   name = "asustor-platform-driver-${version}-${kernel.version}";
@@ -12,7 +19,10 @@ stdenv.mkDerivation rec {
   };
   #src = ./.;
 
-  hardeningDisable = [ "pic" "format" ];
+  hardeningDisable = [
+    "pic"
+    "format"
+  ];
   # Install kmod for depmod dependency if we need it
   #nativeBuildInputs = kernel.moduleBuildDependencies ++ [ kmod ];
   nativeBuildInputs = kernel.moduleBuildDependencies;

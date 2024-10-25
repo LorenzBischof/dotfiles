@@ -67,7 +67,6 @@ in
   # TODO: can we use a yubikey?
   services.ssh-agent.enable = true;
 
-
   home = {
     packages = with pkgs; [
       golangci-lint

@@ -5,16 +5,15 @@
 { config, pkgs, ... }:
 
 {
-  imports =
-    [
-      # Include the results of the hardware scan.
-      ./system/hardware-configuration.nix
-      ./system/suspend.nix
-      #./system/autoupgrade.nix
-      ./system/detect-reboot-needed.nix
-      ./system/detect-syncthing-conflicts.nix
-      ./system/nas.nix
-    ];
+  imports = [
+    # Include the results of the hardware scan.
+    ./system/hardware-configuration.nix
+    ./system/suspend.nix
+    #./system/autoupgrade.nix
+    ./system/detect-reboot-needed.nix
+    ./system/detect-syncthing-conflicts.nix
+    ./system/nas.nix
+  ];
 
   stylix = {
     enable = true;
@@ -56,7 +55,10 @@
       efiSupport = true;
       efiInstallAsRemovable = true;
       mirroredBoots = [
-        { devices = [ "nodev" ]; path = "/boot"; }
+        {
+          devices = [ "nodev" ];
+          path = "/boot";
+        }
       ];
     };
   };
@@ -89,7 +91,6 @@
     podman.enable = true;
     libvirtd.enable = true;
   };
-
 
   hardware = {
     bluetooth = {
@@ -134,20 +135,37 @@
   # 21027/UDP for discovery
   # source: https://docs.syncthing.net/users/firewall.html
   networking.firewall.allowedTCPPorts = [ 22000 ];
-  networking.firewall.allowedUDPPorts = [ 22000 21027 ];
+  networking.firewall.allowedUDPPorts = [
+    22000
+    21027
+  ];
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.lbischof = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "video" "keyd" "i2c" "scanner" "adbUsers" "libvirtd" ];
+    extraGroups = [
+      "wheel"
+      "video"
+      "keyd"
+      "i2c"
+      "scanner"
+      "adbUsers"
+      "libvirtd"
+    ];
     shell = pkgs.zsh;
   };
 
   nix = {
     settings = {
-      experimental-features = [ "nix-command" "flakes" ];
+      experimental-features = [
+        "nix-command"
+        "flakes"
+      ];
       auto-optimise-store = true;
-      trusted-users = [ "root" "@wheel" ];
+      trusted-users = [
+        "root"
+        "@wheel"
+      ];
     };
     gc = {
       automatic = true;
@@ -163,7 +181,6 @@
     ddcutil
     just
   ];
-
 
   services.xserver = {
     enable = true;

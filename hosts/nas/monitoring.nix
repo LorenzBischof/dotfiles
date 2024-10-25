@@ -1,4 +1,9 @@
-{ config, pkgs, secrets, ... }:
+{
+  config,
+  pkgs,
+  secrets,
+  ...
+}:
 let
   inherit (config.homelab) domain;
   textfileDir = "/var/lib/prometheus-node-exporter-textfile";
@@ -35,19 +40,23 @@ in
       scrapeConfigs = [
         {
           job_name = "node";
-          static_configs = [{
-            targets = [
-              "localhost:${toString config.services.prometheus.exporters.node.port}"
-            ];
-          }];
+          static_configs = [
+            {
+              targets = [
+                "localhost:${toString config.services.prometheus.exporters.node.port}"
+              ];
+            }
+          ];
         }
         {
           job_name = "restic";
-          static_configs = [{
-            targets = [
-              "localhost:${toString config.services.prometheus.exporters.restic.port}"
-            ];
-          }];
+          static_configs = [
+            {
+              targets = [
+                "localhost:${toString config.services.prometheus.exporters.restic.port}"
+              ];
+            }
+          ];
         }
       ];
     };
@@ -66,15 +75,19 @@ in
       };
       provision = {
         enable = true;
-        datasources.settings.datasources = [{
-          name = "prometheus";
-          type = "prometheus";
-          url = "http://127.0.0.1:${toString config.services.prometheus.port}";
-          isDefault = true;
-        }];
-        dashboards.settings.providers = [{
-          options.path = ./dashboards;
-        }];
+        datasources.settings.datasources = [
+          {
+            name = "prometheus";
+            type = "prometheus";
+            url = "http://127.0.0.1:${toString config.services.prometheus.port}";
+            isDefault = true;
+          }
+        ];
+        dashboards.settings.providers = [
+          {
+            options.path = ./dashboards;
+          }
+        ];
       };
     };
 

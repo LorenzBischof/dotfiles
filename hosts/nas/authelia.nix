@@ -1,4 +1,10 @@
-{ config, lib, pkgs, secrets, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  secrets,
+  ...
+}:
 let
   inherit (config.homelab) domain;
   autheliaLocation = pkgs.writeText "authelia-location.conf" ''
@@ -53,41 +59,44 @@ let
         ## If the subreqest returns 200 pass to the backend, if the subrequest returns 401 redirect to the portal.
     error_page 401 =302 https://auth.${domain}/?rd=$target_url;
   '';
-  vhostOptions = { config, ... }: {
-    options = {
-      enableAuthelia = lib.mkEnableOption "Enable authelia";
-      locations = lib.mkOption {
-        type = lib.types.attrsOf (lib.types.submodule locationOptions);
+  vhostOptions =
+    { config, ... }:
+    {
+      options = {
+        enableAuthelia = lib.mkEnableOption "Enable authelia";
+        locations = lib.mkOption {
+          type = lib.types.attrsOf (lib.types.submodule locationOptions);
+        };
+      };
+      config = lib.mkIf config.enableAuthelia {
+        locations."/authelia" = {
+          recommendedProxySettings = false;
+          extraConfig = ''
+            include ${autheliaLocation};
+          '';
+        };
+        # Sadly I did not figure out how to avoid infinite recursion
+        #(lib.mapAttrs (name: locationConfig:
+        #    lib.mkIf (name != "/authelia") {
+        #    extraConfig = ''
+        #      include ${autheliaRequest};
+        #    '';
+        #    }
+        #  ) config.locations)
       };
     };
-    config = lib.mkIf config.enableAuthelia {
-      locations."/authelia" = {
-        recommendedProxySettings = false;
+  locationOptions =
+    { config, ... }:
+    {
+      options = {
+        enableAuthelia = lib.mkEnableOption "Enable authelia";
+      };
+      config = lib.mkIf config.enableAuthelia {
         extraConfig = ''
-          include ${autheliaLocation};
+          include ${autheliaRequest};
         '';
       };
-      # Sadly I did not figure out how to avoid infinite recursion
-      #(lib.mapAttrs (name: locationConfig:
-      #    lib.mkIf (name != "/authelia") {
-      #    extraConfig = ''
-      #      include ${autheliaRequest};
-      #    '';
-      #    }
-      #  ) config.locations)
     };
-  };
-  locationOptions = { config, ... }: {
-    options = {
-      enableAuthelia = lib.mkEnableOption "Enable authelia";
-    };
-    config = lib.mkIf config.enableAuthelia {
-      extraConfig = ''
-        include ${autheliaRequest};
-      '';
-    };
-  };
-
 
 in
 {

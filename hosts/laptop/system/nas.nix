@@ -1,7 +1,10 @@
 { config, pkgs, ... }:
 {
   virtualisation.libvirtd.enable = true;
-  virtualisation.libvirtd.allowedBridges = [ "virbr0" "br0" ];
+  virtualisation.libvirtd.allowedBridges = [
+    "virbr0"
+    "br0"
+  ];
   home-manager.users.lbischof.programs.ssh.matchBlocks = {
     "nas" = {
       hostname = "192.168.0.124";
@@ -21,8 +24,10 @@
     };
   };
   networking.bridges.br0.interfaces = [ ];
-  networking.interfaces.br0.ipv4.addresses = [{
-    address = "192.168.1.1";
-    prefixLength = 24;
-  }];
+  networking.interfaces.br0.ipv4.addresses = [
+    {
+      address = "192.168.1.1";
+      prefixLength = 24;
+    }
+  ];
 }

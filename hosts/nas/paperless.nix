@@ -1,4 +1,10 @@
-{ config, pkgs, lib, secrets, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  secrets,
+  ...
+}:
 let
   backupDir = "/var/cache/paperless-backup";
 in

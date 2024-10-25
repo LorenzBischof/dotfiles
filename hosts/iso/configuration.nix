@@ -1,4 +1,13 @@
-{ modulesPath, lib, self, nixpkgs, pkgs, config, ... }: {
+{
+  modulesPath,
+  lib,
+  self,
+  nixpkgs,
+  pkgs,
+  config,
+  ...
+}:
+{
   imports = [
     #"${toString modulesPath}/installer/cd-dvd/installation-cd-graphical-plasma5-new-kernel.nix"
     "${toString modulesPath}/installer/cd-dvd/installation-cd-base.nix"
@@ -12,16 +21,26 @@
   config = {
     networking.hostName = config.device;
 
-    environment.systemPackages = [ pkgs.git pkgs.kitty ];
+    environment.systemPackages = [
+      pkgs.git
+      pkgs.kitty
+    ];
     nix = {
-      nixPath = lib.mkForce [ "self=/etc/self/compat" "nixpkgs=/etc/nixpkgs" ];
+      nixPath = lib.mkForce [
+        "self=/etc/self/compat"
+        "nixpkgs=/etc/nixpkgs"
+      ];
       registry.self.flake = self;
       registry.nixpkgs.flake = nixpkgs;
       extraOptions = ''
         experimental-features = nix-command flakes
       '';
       settings = {
-        trusted-users = [ "root" config.mainuser "@wheel" ];
+        trusted-users = [
+          "root"
+          config.mainuser
+          "@wheel"
+        ];
       };
     };
     environment.etc.nixpkgs.source = nixpkgs;

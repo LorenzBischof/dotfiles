@@ -1,4 +1,10 @@
-{ config, pkgs, lib, secrets, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  secrets,
+  ...
+}:
 {
   options = {
     homelab.domain = lib.mkOption {
@@ -18,7 +24,10 @@
         locations."/".return = 404;
       };
     };
-    networking.firewall.allowedTCPPorts = [ 80 443 ];
+    networking.firewall.allowedTCPPorts = [
+      80
+      443
+    ];
     security.acme = {
       acceptTerms = true;
       defaults.email = secrets.acme-email;

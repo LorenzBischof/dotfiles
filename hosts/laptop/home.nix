@@ -1,4 +1,12 @@
-{ config, pkgs, lib, stylix, nix-secrets, numen, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  stylix,
+  nix-secrets,
+  numen,
+  ...
+}:
 {
   imports = [
     ./home-manager/alacritty
@@ -100,7 +108,6 @@
 
   # https://github.com/NixOS/nixpkgs/issues/328382
   # services.etesync-dav.enable = true;
-
 
   home = {
     file.".config/yubikey-touch-detector/service.conf".text = ''

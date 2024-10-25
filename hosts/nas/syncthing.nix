@@ -1,4 +1,10 @@
-{ config, pkgs, lib, secrets, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  secrets,
+  ...
+}:
 {
   services.syncthing = {
     enable = true;
@@ -20,22 +26,37 @@
         home = {
           id = "jl3m1-4ls92";
           path = "~/home";
-          devices = [ "laptop" "pixel-6a" "pixel-7" "macbook" ];
+          devices = [
+            "laptop"
+            "pixel-6a"
+            "pixel-7"
+            "macbook"
+          ];
         };
         files-lo = {
           id = "ztx9n-wzrke";
           path = "~/files-lo";
-          devices = [ "laptop" "pixel-6a" ];
+          devices = [
+            "laptop"
+            "pixel-6a"
+          ];
         };
         paperless-consume = {
           id = "uukkv-dqhnx";
           path = config.services.paperless.consumptionDir;
-          devices = [ "pixel-6a" "pixel-7" "scanner" ];
+          devices = [
+            "pixel-6a"
+            "pixel-7"
+            "scanner"
+          ];
         };
         photos = {
           id = "y9793-spumx";
           path = "~/photos";
-          devices = [ "pixel-6a" "pixel-7" ];
+          devices = [
+            "pixel-6a"
+            "pixel-7"
+          ];
         };
       };
     };

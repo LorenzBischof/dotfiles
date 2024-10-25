@@ -1,4 +1,9 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 let
   serviceOption = lib.types.submodule {
     options = {
@@ -22,15 +27,13 @@ in
     services.homepage-dashboard = {
       enable = true;
     };
-    services.homepage-dashboard.services = (lib.mapAttrsToList
-      (group: services: {
-        ${group} = lib.mapAttrsToList
-          (name: value: {
-            ${name} = value;
-          })
-          services;
-      })
-      config.homelab.dashboard);
+    services.homepage-dashboard.services = (
+      lib.mapAttrsToList (group: services: {
+        ${group} = lib.mapAttrsToList (name: value: {
+          ${name} = value;
+        }) services;
+      }) config.homelab.dashboard
+    );
 
     services.nginx.virtualHosts."homepage.${config.homelab.domain}" = {
       forceSSL = true;

@@ -1,24 +1,29 @@
-{ config, pkgs, lib, secrets, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  secrets,
+  ...
+}:
 let
   asustor-platform-driver = config.boot.kernelPackages.callPackage ./asustor-platform-driver.nix { };
 in
 {
-  imports =
-    [
-      ./hardware-configuration.nix
-      ./monitoring.nix
-      ./homelab.nix
-      ./homepage.nix
-      ./authelia.nix
-      ./backup.nix
-      ./paperless.nix
-      ./vaultwarden.nix
-      ./syncthing.nix
-      ./media.nix
-      ./photos.nix
-      ./offline-backup.nix
-      ./tiddlywiki.nix
-    ];
+  imports = [
+    ./hardware-configuration.nix
+    ./monitoring.nix
+    ./homelab.nix
+    ./homepage.nix
+    ./authelia.nix
+    ./backup.nix
+    ./paperless.nix
+    ./vaultwarden.nix
+    ./syncthing.nix
+    ./media.nix
+    ./photos.nix
+    ./offline-backup.nix
+    ./tiddlywiki.nix
+  ];
 
   homelab.domain = lib.mkDefault secrets.prod-domain;
 
@@ -26,7 +31,11 @@ in
     loader.systemd-boot.enable = true;
     loader.efi.canTouchEfiVariables = true;
     extraModulePackages = [ asustor-platform-driver ];
-    kernelModules = [ "r8169" "asustor_gpio_it87" "asustor_it87" ];
+    kernelModules = [
+      "r8169"
+      "asustor_gpio_it87"
+      "asustor_it87"
+    ];
     initrd = {
       kernelModules = config.boot.kernelModules;
       network = {
@@ -57,7 +66,10 @@ in
       # stop blinking
       echo 0 | tee /sys/devices/platform/asustor_it87.*/hwmon/hwmon*/gpled1_blink
     '';
-    wantedBy = [ "multi-user.target" "suspend.target" ];
+    wantedBy = [
+      "multi-user.target"
+      "suspend.target"
+    ];
     after = [ "suspend.target" ];
   };
 
@@ -76,10 +88,12 @@ in
     startAt = "21:00";
   };
 
-
   networking.hostName = "nas";
   networking.hostId = "115d4c0d";
-  networking.nameservers = [ "1.1.1.1" "9.9.9.9" ];
+  networking.nameservers = [
+    "1.1.1.1"
+    "9.9.9.9"
+  ];
 
   services.zfs.autoScrub.enable = true;
 
@@ -94,7 +108,10 @@ in
   users.users.lbischof = {
     isNormalUser = true;
     description = "lbischof";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+    ];
     openssh.authorizedKeys.keys = [
       "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIDSKZEtyhueGqUow/G2ewR5TuccLqhrgwWd5VUnd6ImqAAAAC3NzaDpob21lbGFi"
     ];
@@ -154,7 +171,6 @@ in
     };
   };
 
-
   virtualisation.vmVariant = {
     homelab.domain = secrets.test-domain;
     security.acme.defaults.server = "https://acme-staging-v02.api.letsencrypt.org/directory";
@@ -192,17 +208,25 @@ in
 
     # Set a static IP in the VM
     # eth0 is the SLIRP interface (not sure why it still exists)
-    networking.interfaces.eth1.ipv4.addresses = [{
-      address = "192.168.1.2";
-      prefixLength = 24;
-    }];
+    networking.interfaces.eth1.ipv4.addresses = [
+      {
+        address = "192.168.1.2";
+        prefixLength = 24;
+      }
+    ];
   };
 
   nix = {
     settings = {
-      experimental-features = [ "nix-command" "flakes" ];
+      experimental-features = [
+        "nix-command"
+        "flakes"
+      ];
       auto-optimise-store = true;
-      trusted-users = [ "root" "@wheel" ];
+      trusted-users = [
+        "root"
+        "@wheel"
+      ];
     };
     gc = {
       automatic = true;

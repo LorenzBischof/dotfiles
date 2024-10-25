@@ -1,4 +1,9 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 let
   syncthing-resolve-conflict = pkgs.writeShellApplication {
     name = "syncthing-resolve-conflict";

@@ -70,8 +70,8 @@ end, { range = true })
 require('lspconfig').gopls.setup({})
 
 -- Nix
---require('lspconfig').nixd.setup({})
-require('lspconfig').nil_ls.setup({})
+require('lspconfig').nixd.setup({})
+-- require('lspconfig').nil_ls.setup({})
 
 -- Lua
 require('lspconfig').lua_ls.setup({})

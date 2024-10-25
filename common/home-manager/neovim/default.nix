@@ -43,7 +43,7 @@ in
     ];
     extraPackages = with pkgs; [
       gopls
-      #      nixd
+      nixd
       nil
       lua-language-server
       fzf

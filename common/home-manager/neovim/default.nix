@@ -15,6 +15,7 @@ in
   imports = [
     ./avante.nix
     ./treesitter.nix
+    ./lualine.nix
   ];
 
   programs.neovim = {
@@ -28,14 +29,15 @@ in
     '';
     plugins = with pkgs.vimPlugins; [
       gitsigns-nvim
-      nvim-lspconfig
       base16-nvim
+      fzf-lua
+      # LSP
       nvim-lspconfig
       nvim-cmp
       cmp-nvim-lsp
       luasnip
       lsp-zero-nvim
-      fzf-lua
+      conform-nvim
       #      (vimPluginFromGitHub "3a22cde57fc5bdf984d1df3464ab32691cb13f00" "v0.3.6" "frankroeder/parrot.nvim")
       #        nvim-tree
     ];

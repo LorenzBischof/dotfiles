@@ -81,3 +81,6 @@ require('lspconfig').terraformls.setup({})
 
 -- Rego
 require('lspconfig').regols.setup({})
+
+-- Rust
+require('lspconfig').rust_analyzer.setup({})

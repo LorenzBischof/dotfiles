@@ -8,6 +8,7 @@
   home.packages = with pkgs; [
     devenv
     kubectl
+    ripgrep
   ];
   programs = {
     direnv = {
@@ -43,6 +44,13 @@
       git = true;
       icons = "auto";
     };
+    fzf = {
+      enable = true;
+      defaultCommand = "fd --type f";
+      changeDirWidgetCommand = "fd --type d";
+      fileWidgetCommand = "fd --type f";
+    };
+    fd.enable = true;
   };
 
   home.file = {

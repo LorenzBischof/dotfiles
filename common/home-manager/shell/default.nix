@@ -51,6 +51,7 @@
       fileWidgetCommand = "fd --type f";
     };
     fd.enable = true;
+    jq.enable = true;
   };
 
   home.file = {

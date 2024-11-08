@@ -3,3 +3,5 @@ result
 .pre-commit-config.yaml
 nas.qcow2
 nas-efi-vars.fd
+.aider*
+.env

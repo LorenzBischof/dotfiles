@@ -38,6 +38,8 @@ in
     ../../common/home-manager/git
   ];
 
+  my.programs.neovim.plugins.avante.enable = false;
+
   nixpkgs.config.allowUnfree = true;
 
   programs = {

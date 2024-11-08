@@ -16,6 +16,7 @@
     ./home-manager/i3
     ./home-manager/scripts
     ./home-manager/aider-chat.nix
+    ./home-manager/aichat.nix
     ../../common/home-manager/git
     ../../common/home-manager/neovim
     ../../common/home-manager/shell

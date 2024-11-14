@@ -75,7 +75,7 @@ in
 
   systemd.services.scheduled-suspend = {
     description = "Schedule system suspend at night";
-    enable = false;
+    enable = true;
     serviceConfig = {
       Type = "oneshot";
     };

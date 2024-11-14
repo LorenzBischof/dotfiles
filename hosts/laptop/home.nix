@@ -108,8 +108,7 @@
     };
   };
 
-  # https://github.com/NixOS/nixpkgs/issues/328382
-  # services.etesync-dav.enable = true;
+  services.etesync-dav.enable = true;
 
   home = {
     file.".config/yubikey-touch-detector/service.conf".text = ''

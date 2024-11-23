@@ -201,6 +201,7 @@
           "${mod}+n" = "exec ${pkgs.swaylock}/bin/swaylock";
           "${mod}+p" = "split h";
           "${mod}+w" = "split v";
+          "${mod}+z" = "fullscreen";
           "${mod}+s" = "layout toggle tabbed split";
           # Alternative solution: https://www.reddit.com/r/swaywm/comments/wtdubk/bind_the_same_key_to_start_move_to_scratchpad/
           # Adding the following seems to always start keepassxc: [app_id="^(?!org.keepassxc.KeePassXC).*$"] exec keepassxc

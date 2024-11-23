@@ -9,6 +9,7 @@
     devenv
     kubectl
     ripgrep
+    dtrx
   ];
   programs = {
     direnv = {
@@ -52,6 +53,15 @@
     };
     fd.enable = true;
     jq.enable = true;
+    tmux = {
+      enable = true;
+      historyLimit = 100000;
+      terminal = "screen-256color";
+      mouse = true;
+      extraConfig = ''
+        unbind -n MouseDrag1Pane
+      '';
+    };
   };
 
   home.file = {

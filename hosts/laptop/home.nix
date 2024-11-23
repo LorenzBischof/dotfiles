@@ -41,8 +41,6 @@
     gnumake
     logseq
     pavucontrol
-    tmux
-    dtrx
     jellyfin-media-player
     xournalpp
     simple-scan

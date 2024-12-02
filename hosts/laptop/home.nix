@@ -52,16 +52,10 @@
     # Required so that Logseq can open links
     # There is probably a NixOS option for this...
     xdg-utils
+
     # fonts
-    fira-code
-    fira-code-symbols
     font-awesome
-    liberation_ttf
-    mplus-outline-fonts.githubRelease
-    nerdfonts
-    noto-fonts
-    noto-fonts-emoji
-    proggyfonts
+    nerd-fonts.dejavu-sans-mono
   ];
 
   systemd.user.startServices = true;

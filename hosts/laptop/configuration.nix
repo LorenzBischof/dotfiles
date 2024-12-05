@@ -179,7 +179,6 @@
     git
     home-manager
     ddcutil
-    just
   ];
 
   services.xserver = {

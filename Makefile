@@ -8,7 +8,6 @@ add:
 .PHONY: update
 update:
 	nix flake update
-	sudo nixos-rebuild switch --flake .
 
 .PHONY: switch
 switch: add

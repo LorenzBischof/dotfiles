@@ -39,6 +39,10 @@
       url = "https://git.lix.systems/lix-project/nixos-module/archive/2.91.1-2.tar.gz";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    treefmt-nix = {
+      url = "github:numtide/treefmt-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -54,6 +58,7 @@
       numen,
       nixos-generators,
       lix-module,
+      treefmt-nix,
       ...
     }:
     let
@@ -65,6 +70,7 @@
           permittedInsecurePackages = [ "electron-27.3.11" ];
         };
       };
+      treefmtEval = treefmt-nix.lib.evalModule pkgs ./treefmt.nix;
     in
     {
       nixosConfigurations = {
@@ -181,12 +187,16 @@
         };
         format = "install-iso";
       };
-      formatter.${system} = pkgs.nixfmt-rfc-style;
-      checks.${system}.pre-commit-check = pre-commit-hooks.lib.${system}.run {
-        src = ./.;
-        hooks = {
-          nixfmt-rfc-style.enable = true;
-          check-merge-conflicts.enable = true;
+      formatter.${system} = treefmtEval.config.build.wrapper;
+      checks.${system} = {
+        formatting = treefmtEval.config.build.check self;
+
+        pre-commit-check = pre-commit-hooks.lib.${system}.run {
+          src = ./.;
+          hooks = {
+            nixfmt-rfc-style.enable = true;
+            check-merge-conflicts.enable = true;
+          };
         };
       };
       devShells.${system}.default = pkgs.mkShell {

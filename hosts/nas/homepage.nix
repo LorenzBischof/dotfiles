@@ -24,27 +24,26 @@ in
     };
   };
   config = {
-    services.homepage-dashboard = {
+    services.dashy = {
       enable = true;
+      settings.sections = lib.mapAttrsToList (section: items: {
+        name = section;
+        items = lib.mapAttrsToList (title: value: {
+          url = value.href;
+          title = title;
+        }) items;
+      }) config.homelab.dashboard;
     };
-    services.homepage-dashboard.services = (
-      lib.mapAttrsToList (group: services: {
-        ${group} = lib.mapAttrsToList (name: value: {
-          ${name} = value;
-        }) services;
-      }) config.homelab.dashboard
-    );
-
     services.nginx.virtualHosts."homepage.${config.homelab.domain}" = {
       forceSSL = true;
       useACMEHost = config.homelab.domain;
       enableAuthelia = true;
       locations."/" = {
-        proxyPass = "http://127.0.0.1:${toString config.services.homepage-dashboard.listenPort}";
-        proxyWebsockets = true;
-        recommendedProxySettings = true;
+        root = config.services.dashy.finalDrv;
+        tryFiles = "$uri /index.html";
         enableAuthelia = true;
       };
     };
+
   };
 }

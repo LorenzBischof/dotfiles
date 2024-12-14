@@ -98,6 +98,28 @@
           user = "nixos";
           identityFile = "~/.ssh/id_ed25519_sk_rk_homelab";
         };
+        "nas-tailscale" = lib.hm.dag.entryBefore [ "nas" ] {
+          match = ''originalhost nas exec "tailscale status"'';
+          hostname = "100.102.187.46";
+          user = "lbischof";
+          identityFile = "~/.ssh/id_ed25519_sk_rk_homelab";
+        };
+        "nas" = {
+          hostname = "192.168.0.124";
+          user = "lbischof";
+          identityFile = "~/.ssh/id_ed25519_sk_rk_homelab";
+        };
+        "nas-unlock" = {
+          hostname = "192.168.0.124";
+          user = "root";
+          port = 2222;
+          identityFile = "~/.ssh/id_ed25519_sk_rk_homelab";
+        };
+        "nas.local" = {
+          hostname = "192.168.1.2";
+          user = "lbischof";
+          identityFile = "~/.ssh/id_ed25519_sk_rk_homelab";
+        };
       };
     };
   };

@@ -35,6 +35,7 @@
       enable = true;
       shellAliases = {
         "k" = "kubectl";
+        "tt" = "jj";
       };
       initExtra = ''
         source ~/.zshrc-extra

@@ -16,3 +16,7 @@ switch: add
 .PHONY: deploy
 deploy: add
 	nixos-rebuild switch --flake .#nas --target-host nas --use-remote-sudo
+
+.PHONY: dry-build-nas
+dry-build-nas: add
+	NIXPKGS_ALLOW_INSECURE=1 nixos-rebuild dry-build --flake .#nas --impure

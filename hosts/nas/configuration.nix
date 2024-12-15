@@ -24,6 +24,7 @@ in
     ./offline-backup.nix
     ./tiddlywiki.nix
     ./scrutiny.nix
+    ./open-webui.nix
   ];
 
   homelab.domain = lib.mkDefault secrets.prod-domain;

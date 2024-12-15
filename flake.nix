@@ -24,7 +24,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     talon = {
-      url = "github:nix-community/talon-nix";
+      # https://github.com/nix-community/talon-nix/pull/21
+      url = "github:LorenzBischof/talon-nix/pango";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     numen = {

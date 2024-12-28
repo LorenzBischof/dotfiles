@@ -30,7 +30,11 @@
     xkbVariant = "adnw";
   };
 
-  services.safeeyes.enable = true;
+  services.safeeyes = {
+    # https://github.com/NixOS/nixpkgs/issues/242664
+    package = pkgs.callPackage ../../packages/safeeyes.nix { };
+    enable = true;
+  };
 
   # The home.packages option allows you to install Nix packages into your
   # environment.

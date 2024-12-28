@@ -36,10 +36,6 @@
       url = "github:nix-community/nixos-generators";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    lix-module = {
-      url = "https://git.lix.systems/lix-project/nixos-module/archive/2.91.1-2.tar.gz";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     treefmt-nix = {
       url = "github:numtide/treefmt-nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -58,7 +54,6 @@
       talon,
       numen,
       nixos-generators,
-      lix-module,
       treefmt-nix,
       ...
     }:
@@ -90,7 +85,6 @@
             talon.nixosModules.talon
             home-manager.nixosModules.home-manager
             nix-secrets.nixosModules.laptop
-            lix-module.nixosModules.default
             {
               home-manager = {
                 useGlobalPkgs = true;
@@ -115,7 +109,6 @@
           modules = [
             ./hosts/nas/configuration.nix
             nix-secrets.nixosModules.nas
-            lix-module.nixosModules.default
           ];
           specialArgs = {
             secrets = import nix-secrets;

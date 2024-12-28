@@ -156,6 +156,7 @@
   };
 
   nix = {
+    package = pkgs.lix;
     settings = {
       experimental-features = [
         "nix-command"
@@ -214,7 +215,6 @@
     # Required for Stylix
     dconf.enable = true;
     yubikey-touch-detector.enable = true;
-    evolution.enable = true;
     adb.enable = true;
     talon.enable = true;
     virt-manager.enable = true;

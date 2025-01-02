@@ -3,8 +3,7 @@
   pkgs,
   lib,
   stylix,
-  nix-secrets,
-  numen,
+  inputs,
   ...
 }:
 {
@@ -20,8 +19,8 @@
     ../../common/home-manager/git
     ../../common/home-manager/neovim
     ../../common/home-manager/shell
-    nix-secrets.homeManagerModule
-    numen.homeManagerModule
+    inputs.nix-secrets.homeManagerModule
+    inputs.numen.homeManagerModule
   ];
 
   services.numen = {

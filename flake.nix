@@ -40,6 +40,10 @@
       url = "github:numtide/treefmt-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nixvim = {
+      url = "github:nix-community/nixvim";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -55,8 +59,9 @@
       numen,
       nixos-generators,
       treefmt-nix,
+      nixvim,
       ...
-    }:
+    }@inputs:
     let
       system = "x86_64-linux";
       pkgs = import nixpkgs {
@@ -91,7 +96,7 @@
                 useUserPackages = true;
                 users.lbischof = import ./hosts/laptop/home.nix;
                 extraSpecialArgs = {
-                  inherit nix-secrets numen;
+                  inherit self inputs;
                 };
               };
             }
@@ -174,19 +179,35 @@
         rpi2 = self.nixosConfigurations.rpi2.config.system.build.sdImage;
         rpi3 = self.nixosConfigurations.rpi3.config.system.build.sdImage;
       };
-      packages.x86_64-linux.default = nixos-generators.nixosGenerate {
-        system = "x86_64-linux";
-        modules = [
-          {
-            device = "nas";
-            mainuser = "lbischof";
-          }
-          ./hosts/iso/configuration.nix
-        ];
-        specialArgs = {
-          inherit self nixpkgs;
+      packages.x86_64-linux = {
+        nas-iso = nixos-generators.nixosGenerate {
+          system = "x86_64-linux";
+          modules = [
+            {
+              device = "nas";
+              mainuser = "lbischof";
+            }
+            ./hosts/iso/configuration.nix
+          ];
+          specialArgs = {
+            inherit self nixpkgs;
+          };
+          format = "install-iso";
         };
-        format = "install-iso";
+        nvim =
+          let
+            nixvimLib = nixvim.lib.${system};
+            nixvim' = nixvim.legacyPackages.${system};
+            nixvimModule = {
+              inherit pkgs;
+              module = import ./nvim;
+              extraSpecialArgs = {
+	        inherit self inputs;
+              };
+            };
+            nvim = nixvim'.makeNixvimWithModule nixvimModule;
+          in
+          nvim;
       };
       formatter.${system} = treefmtEval.config.build.wrapper;
       checks.${system} = {

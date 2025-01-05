@@ -25,6 +25,7 @@ in
     ./tiddlywiki.nix
     ./scrutiny.nix
     ./open-webui.nix
+    ./homeassistant.nix
   ];
 
   homelab.domain = lib.mkDefault secrets.prod-domain;

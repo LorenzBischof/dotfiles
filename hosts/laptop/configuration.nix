@@ -88,7 +88,7 @@
 
   # Containers
   virtualisation = {
-    podman.enable = true;
+    docker.enable = true;
     libvirtd.enable = true;
   };
 
@@ -151,6 +151,7 @@
       "scanner"
       "adbUsers"
       "libvirtd"
+      "docker"
     ];
     shell = pkgs.zsh;
   };
@@ -167,6 +168,16 @@
         "root"
         "@wheel"
       ];
+      substituters = [
+        "https://nix-community.cachix.org?priority=41"
+        "https://billowing-darkness-4823.fly.dev/system?priority=42"
+      ];
+      trusted-public-keys = [
+        "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+        "system:8c8bXDuMT8ZPBj+//XtB6JXJWrZQf7IdOPHhoWL8Pr8="
+      ];
+
+      netrc-file = config.age.secrets.netrc.path;
     };
     gc = {
       automatic = true;

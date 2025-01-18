@@ -202,7 +202,7 @@
               inherit pkgs;
               module = import ./nvim;
               extraSpecialArgs = {
-	        inherit self inputs;
+                inherit self inputs;
               };
             };
             nvim = nixvim'.makeNixvimWithModule nixvimModule;
@@ -223,7 +223,10 @@
       };
       devShells.${system}.default = pkgs.mkShell {
         inherit (self.checks.${system}.pre-commit-check) shellHook;
-        buildInputs = self.checks.${system}.pre-commit-check.enabledPackages;
+        buildInputs = self.checks.${system}.pre-commit-check.enabledPackages ++ [
+          pkgs.flyctl
+          pkgs.attic-client
+        ];
       };
     };
 }

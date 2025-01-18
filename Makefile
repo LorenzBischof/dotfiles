@@ -13,6 +13,10 @@ update:
 switch: add
 	sudo nixos-rebuild switch --flake .
 
+.PHONY: switch-override
+switch-override: add
+	sudo nixos-rebuild switch --flake . --override-input nix-secrets ../nix-secrets
+
 .PHONY: deploy
 deploy: add
 	nixos-rebuild switch --flake .#nas --target-host nas --use-remote-sudo

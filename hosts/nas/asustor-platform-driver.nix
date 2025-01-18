@@ -14,8 +14,8 @@ stdenv.mkDerivation rec {
   src = fetchFromGitHub {
     owner = "mafredri";
     repo = "asustor-platform-driver";
-    rev = "main";
-    sha256 = "sha256-T7v7a27zligDU1h4Kv77B0Iv9x69zvWECpsgUIoiYc4=";
+    rev = "9ae2030a88b7d22f7eea6a1c537ffb54a8d5ed1e";
+    hash = "sha256-T7v7a27zligDU1h4Kv77B0Iv9x69zvWECpsgUIoiYc4=";
   };
   #src = ./.;
 

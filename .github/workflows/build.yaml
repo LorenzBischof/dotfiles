@@ -1,0 +1,46 @@
+# https://lgug2z.com/articles/building-and-privately-caching-x86-and-aarch64-nixos-systems-on-github-actions/
+name: "build"
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      # Here we specify the matrix of our hosts and their target platform architectures
+      matrix:
+        machine:
+          - host: laptop
+            platform: x86-64-linux
+          - host: nas
+            platform: x86-64-linux
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          sudo mkdir -p /etc/nix
+          echo "machine billowing-darkness-4823.fly.dev password ${{ secrets.ATTIC_TOKEN }}" | sudo tee /etc/nix/netrc > /dev/null
+      - uses: DeterminateSystems/nix-installer-action@main
+        with:
+          # We set our custom GitHub token for any private flake inputs we might have
+          github-token: ${{ secrets.GH_TOKEN }}
+          # We add all the config for extra platforms, other binary caches and to raise the number of connections that can be made
+          extra-conf: |
+            fallback = true
+            http-connections = 128
+            max-substitution-jobs = 128
+            extra-platforms = aarch64-linux
+            substituters = https://billowing-darkness-4823.fly.dev/system?priority=42 https://nix-community.cachix.org?priority=41 https://cache.nixos.org/
+            trusted-public-keys = cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY= system:8c8bXDuMT8ZPBj+//XtB6JXJWrZQf7IdOPHhoWL8Pr8= nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs=
+      - uses: DeterminateSystems/magic-nix-cache-action@main
+      - name: Build and push system
+        run: |
+          nix build .#nixosConfigurations.${{ matrix.machine.host }}.config.system.build.toplevel
+          nix run github:zhaofengli/attic#default login fly https://billowing-darkness-4823.fly.dev ${{ secrets.ATTIC_TOKEN }}
+          nix run github:zhaofengli/attic#default push system result -j 2

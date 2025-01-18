@@ -164,6 +164,8 @@
         "flakes"
       ];
       auto-optimise-store = true;
+      http-connections = 128;
+      max-substitution-jobs = 128;
       trusted-users = [
         "root"
         "@wheel"

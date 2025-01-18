@@ -1,0 +1,35 @@
+# https://xyven.dev/articles/automatic-flake-updates-with-garnix
+name: "update"
+
+on:
+  workflow_dispatch: # allows manual triggering
+  schedule: # run the job at 04:00 every 3 days
+    - cron: '0 4 */3 * *'
+
+jobs:
+  update:
+    permissions:
+      contents: write
+      pull-requests: write
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@main
+        with:
+          # We set our custom GitHub token for any private flake inputs we might have
+          github-token: ${{ secrets.GH_TOKEN }}
+      - name: Update flake.lock
+        uses: DeterminateSystems/update-flake-lock@main
+        id: update
+        with:
+          commit-msg: "flake: update"
+          pr-title: "flake: update"
+          token: ${{ secrets.GH_TOKEN_FOR_UPDATES }}
+      - run: |
+          if [ -n "${{ steps.update.outputs.pull-request-number }}" ]; then
+            gh pr merge --auto --rebase ${{ steps.update.outputs.pull-request-number }}
+          fi
+        env:
+          GH_TOKEN: ${{ github.token }}

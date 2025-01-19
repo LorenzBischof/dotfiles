@@ -1,4 +1,5 @@
 {
+  self,
   config,
   pkgs,
   lib,
@@ -16,9 +17,8 @@
     ./home-manager/scripts
     ./home-manager/aider-chat.nix
     ./home-manager/aichat.nix
-    ../../common/home-manager/git
-    ../../common/home-manager/neovim
-    ../../common/home-manager/shell
+    ../../modules/home-manager/git
+    ../../modules/home-manager/shell
     inputs.nix-secrets.homeManagerModule
     inputs.numen.homeManagerModule
   ];
@@ -60,7 +60,9 @@
     # fonts
     font-awesome
     nerd-fonts.dejavu-sans-mono
+    self.packages.${pkgs.system}.nvim
   ];
+  home.sessionVariables.EDITOR = "nvim";
 
   systemd.user.startServices = true;
   gtk = {

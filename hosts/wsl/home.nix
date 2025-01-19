@@ -1,4 +1,9 @@
-{ config, pkgs, ... }:
+{
+  self,
+  config,
+  pkgs,
+  ...
+}:
 let
   regula = pkgs.stdenv.mkDerivation {
     name = "regula";
@@ -33,12 +38,9 @@ let
 in
 {
   imports = [
-    ../../common/home-manager/neovim
-    ../../common/home-manager/shell
-    ../../common/home-manager/git
+    ../../modules/home-manager/shell
+    ../../modules/home-manager/git
   ];
-
-  my.programs.neovim.plugins.avante.enable = false;
 
   nixpkgs.config.allowUnfree = true;
 
@@ -70,6 +72,7 @@ in
   services.ssh-agent.enable = true;
 
   home = {
+    sessionVariables.EDITOR = "nvim";
     packages = with pkgs; [
       golangci-lint
       kubectl
@@ -91,6 +94,10 @@ in
       docker-compose
       awscli2
       open-policy-agent
+
+      (self.packages.${pkgs.system}.nvim.extend {
+        plugins.avante.enable = false;
+      })
     ];
     # Home Manager needs a bit of information about you and the paths it should
     # manage.

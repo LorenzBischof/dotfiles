@@ -60,9 +60,7 @@
     # fonts
     font-awesome
     nerd-fonts.dejavu-sans-mono
-    self.packages.${pkgs.system}.nvim
   ];
-  home.sessionVariables.EDITOR = "nvim";
 
   systemd.user.startServices = true;
   gtk = {

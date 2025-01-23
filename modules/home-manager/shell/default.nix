@@ -10,6 +10,7 @@
     kubectl
     ripgrep
     dtrx
+    nvim-pkg
   ];
   programs = {
     direnv = {
@@ -65,6 +66,7 @@
     };
   };
 
+  home.sessionVariables.EDITOR = "nvim";
   home.file = {
     ".zshrc-extra".source = ./initextra;
   };

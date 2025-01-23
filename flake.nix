@@ -40,8 +40,8 @@
       url = "github:numtide/treefmt-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nixvim = {
-      url = "github:nix-community/nixvim";
+    neovim-config = {
+      url = "github:LorenzBischof/neovim-config";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -59,7 +59,7 @@
       numen,
       nixos-generators,
       treefmt-nix,
-      nixvim,
+      neovim-config,
       ...
     }@inputs:
     let
@@ -77,6 +77,9 @@
             "dotnet-sdk-wrapped-6.0.428"
           ];
         };
+        overlays = [
+          neovim-config.overlays.default
+        ];
       };
       treefmtEval = treefmt-nix.lib.evalModule pkgs ./treefmt.nix;
     in
@@ -194,20 +197,6 @@
           };
           format = "install-iso";
         };
-        nvim =
-          let
-            nixvimLib = nixvim.lib.${system};
-            nixvim' = nixvim.legacyPackages.${system};
-            nixvimModule = {
-              inherit pkgs;
-              module = import ./nvim;
-              extraSpecialArgs = {
-                inherit self inputs;
-              };
-            };
-            nvim = nixvim'.makeNixvimWithModule nixvimModule;
-          in
-          nvim;
       };
       formatter.${system} = treefmtEval.config.build.wrapper;
       checks.${system} = {

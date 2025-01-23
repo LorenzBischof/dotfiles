@@ -72,7 +72,6 @@ in
   services.ssh-agent.enable = true;
 
   home = {
-    sessionVariables.EDITOR = "nvim";
     packages = with pkgs; [
       golangci-lint
       kubectl
@@ -94,10 +93,6 @@ in
       docker-compose
       awscli2
       open-policy-agent
-
-      (self.packages.${pkgs.system}.nvim.extend {
-        plugins.avante.enable = false;
-      })
     ];
     # Home Manager needs a bit of information about you and the paths it should
     # manage.

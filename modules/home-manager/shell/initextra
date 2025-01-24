@@ -6,6 +6,7 @@ setopt hist_ignore_dups          # Do not record an event that was just recorded
 setopt complete_in_word
 setopt auto_cd
 setopt TRANSIENT_RPROMPT         # Sadly only works for the right prompt
+unsetopt BEEP
 
 # make ctrl+backspace delete word
 bindkey '^H' backward-kill-word

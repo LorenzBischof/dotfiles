@@ -139,6 +139,15 @@ in
               ];
               consent_mode = "implicit";
             }
+            {
+              client_id = "mealie";
+              client_secret = secrets.authelia-clients-mealie;
+              authorization_policy = "one_factor";
+              redirect_uris = [
+                "https://mealie.${domain}/login"
+              ];
+              consent_mode = "implicit";
+            }
           ];
         };
       };

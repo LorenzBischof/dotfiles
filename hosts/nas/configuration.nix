@@ -26,6 +26,7 @@ in
     ./scrutiny.nix
     ./open-webui.nix
     ./homeassistant.nix
+    ./mealie.nix
   ];
 
   homelab.domain = lib.mkDefault secrets.prod-domain;

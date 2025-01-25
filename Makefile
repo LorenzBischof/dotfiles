@@ -21,6 +21,10 @@ switch-override: add
 deploy: add
 	nixos-rebuild switch --flake .#nas --target-host nas --use-remote-sudo
 
+.PHONY: deploy-override
+deploy-override: add
+	nixos-rebuild switch --flake .#nas --override-input nix-secrets ../nix-secrets --target-host nas --use-remote-sudo
+
 .PHONY: dry-build-nas
 dry-build-nas: add
 	NIXPKGS_ALLOW_INSECURE=1 nixos-rebuild dry-build --flake .#nas --impure

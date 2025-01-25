@@ -27,6 +27,12 @@ jobs:
           commit-msg: "flake: update"
           pr-title: "flake: update"
           token: ${{ secrets.GH_TOKEN_FOR_UPDATES }}
+          body: |
+            Automated changes by the [update-flake-lock](https://github.com/DeterminateSystems/update-flake-lock) GitHub Action.
+
+            ```
+            {{ env.GIT_COMMIT_MESSAGE }}
+            ```
       - run: |
           if [ -n "${{ steps.update.outputs.pull-request-number }}" ]; then
             gh pr merge --auto --rebase ${{ steps.update.outputs.pull-request-number }}

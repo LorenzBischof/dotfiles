@@ -38,7 +38,8 @@ jobs:
             extra-platforms = aarch64-linux
             substituters = https://billowing-darkness-4823.fly.dev/system?priority=42 https://nix-community.cachix.org?priority=41 https://cache.nixos.org/
             trusted-public-keys = cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY= system:8c8bXDuMT8ZPBj+//XtB6JXJWrZQf7IdOPHhoWL8Pr8= nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs=
-      - uses: DeterminateSystems/magic-nix-cache-action@main
+      # https://determinate.systems/posts/magic-nix-cache-free-tier-eol/
+      #- uses: DeterminateSystems/magic-nix-cache-action@main
       - name: Build and push system
         run: |
           nix build .#nixosConfigurations.${{ matrix.machine.host }}.config.system.build.toplevel

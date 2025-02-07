@@ -35,9 +35,6 @@
   };
   systemd.services.prometheus-restic-exporter = {
     environment.NO_CHECK = "true";
-    # https://github.com/NixOS/nixpkgs/issues/342243
-    environment.RESTIC_CACHE_DIR = "/var/cache/restic-exporter";
-    serviceConfig.CacheDirectory = "restic-exporter";
   };
 
   services.restic.backups.daily.backupPrepareCommand = "${pkgs.curl}/bin/curl -fsS -m 10 --retry 5 -o /dev/null https://hc-ping.com/$HC_UUID/start";

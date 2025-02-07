@@ -48,4 +48,6 @@ in
       '';
     };
   };
+
+  homelab.dashboard.Services.Immich.href = "https://immich.${config.homelab.domain}";
 }

@@ -15,7 +15,7 @@ switch: add
 
 .PHONY: switch-override
 switch-override: add
-	sudo nixos-rebuild switch --flake . --override-input nix-secrets ../nix-secrets
+	sudo nixos-rebuild switch --flake . --override-input nix-secrets ../nix-secrets --override-input neovim-config ../neovim-config
 
 .PHONY: deploy
 deploy: add

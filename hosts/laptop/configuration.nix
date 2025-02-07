@@ -13,6 +13,7 @@
     ./system/detect-reboot-needed.nix
     ./system/detect-syncthing-conflicts.nix
     ./system/nas.nix
+    ../../modules/nixos/common.nix
   ];
 
   stylix = {

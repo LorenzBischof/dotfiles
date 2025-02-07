@@ -104,12 +104,6 @@
               };
             }
             nix-index-database.nixosModules.nix-index
-            {
-              # Pin the registry
-              # https://ayats.org/blog/channels-to-flakes/
-              nix.registry.nixpkgs.flake = nixpkgs;
-              nix.nixPath = [ "nixpkgs=flake:nixpkgs" ];
-            }
           ];
         };
         nas = nixpkgs.lib.nixosSystem {
@@ -171,10 +165,6 @@
           nix-index-database.hmModules.nix-index
           {
             programs.nix-index-database.comma.enable = true;
-            # Pin the registry
-            # https://ayats.org/blog/channels-to-flakes/
-            nix.registry.nixpkgs.flake = nixpkgs;
-            home.sessionVariables.NIX_PATH = "nixpkgs=flake:nixpkgs\${NIX_PATH:+:$NIX_PATH}";
           }
         ];
       };

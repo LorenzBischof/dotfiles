@@ -24,7 +24,7 @@
   ];
 
   services.numen = {
-    enable = false;
+    enable = true;
     xkbLayout = "de";
     xkbVariant = "adnw";
   };

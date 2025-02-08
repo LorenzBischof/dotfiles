@@ -503,11 +503,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1725045276,
-        "narHash": "sha256-3ZspQz8Lt51v6LuKJQBmKmttTmJ9v03Zxrlh7teKNr0=",
+        "lastModified": 1739116846,
+        "narHash": "sha256-mGgw2XzSwRVBCEcP8QN3e9J7iielsfpNis2XUNBs4nI=",
         "owner": "LorenzBischof",
         "repo": "numen-nix",
-        "rev": "633706ace6a20294f2da165db34c7809b9658059",
+        "rev": "9649ac8415a2fc19c7a3e532df04a10bc566311d",
         "type": "github"
       },
       "original": {

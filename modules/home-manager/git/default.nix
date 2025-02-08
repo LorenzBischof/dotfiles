@@ -43,6 +43,7 @@
         "format_short_signature(signature)" = "signature.name()";
         "format_timestamp(timestamp)" = "timestamp.ago()";
       };
+      git.subprocess = true;
     };
   };
 

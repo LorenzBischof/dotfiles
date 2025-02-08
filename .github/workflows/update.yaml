@@ -25,9 +25,9 @@ jobs:
         id: update
         with:
           commit-msg: "flake: update"
-          pr-title: "flake: update"
           token: ${{ secrets.GH_TOKEN_FOR_UPDATES }}
-          body: |
+          pr-title: "flake: update"
+          pr-body: |
             Automated changes by the [update-flake-lock](https://github.com/DeterminateSystems/update-flake-lock) GitHub Action.
 
             ```

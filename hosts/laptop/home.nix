@@ -27,6 +27,7 @@
     enable = true;
     xkbLayout = "de";
     xkbVariant = "adnw";
+    subtitles.enable = true;
   };
 
   services.safeeyes = {
